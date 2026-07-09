@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>高三知识点掌握情况调研</title>
+<style>
+:root{
+--p:#1565C0;--pl:#42A5F5;--pd:#0D47A1;--pll:#90CAF9;
+--bg:linear-gradient(160deg,#E3F2FD 0%,#F5F9FF 40%,#FFFFFF 60%,#E8F0FE 100%);
+--card:#fff;--tp:#1A237E;--ts:#5C6BC0;--tm:#9FA8DA;
+--border:#BBDEFB;--sh:0 2px 12px rgba(21,101,192,.08);--shh:0 4px 20px rgba(21,101,192,.15);
+--r:14px;--rs:10px;
+--m1:#43A047;--m2:#1565C0;--m3:#FB8C00;--m4:#E53935;
+--m1b:#E8F5E9;--m2b:#E3F2FD;--m3b:#FFF3E0;--m4b:#FFEBEE;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--tp);min-height:100vh;font-size:15px;line-height:1.6}
+.view{display:none;min-height:100vh}
+.view.active{display:block}
+.container{max-width:860px;margin:0 auto;padding:16px}
+
+/* Header */
+.hdr{background:linear-gradient(135deg,var(--p) 0%,var(--pl) 100%);color:#fff;padding:18px 16px;text-align:center;box-shadow:var(--sh);position:sticky;top:0;z-index:100}
+.hdr h1{font-size:20px;font-weight:700;letter-spacing:1px}
+.hdr p{font-size:12px;opacity:.85;margin-top:2px}
+
+/* Home */
+.home-hero{text-align:center;padding:40px 16px}
+.home-hero .icon{font-size:56px;margin-bottom:12px}
+.home-hero h2{font-size:22px;color:var(--p);margin-bottom:8px}
+.home-hero p{color:var(--ts);font-size:14px;margin-bottom:24px;max-width:420px;margin-left:auto;margin-right:auto}
+.home-stats{display:flex;gap:12px;justify-content:center;margin-bottom:28px;flex-wrap:wrap}
+.home-stat{text-align:center;background:#fff;padding:12px 20px;border-radius:var(--rs);box-shadow:var(--sh);min-width:90px}
+.home-stat .num{font-size:24px;font-weight:700;color:var(--p)}
+.home-stat .lbl{font-size:11px;color:var(--ts);margin-top:2px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 28px;border:none;border-radius:30px;font-size:15px;font-weight:600;cursor:pointer;transition:all .25s;text-decoration:none}
+.btn-primary{background:linear-gradient(135deg,var(--p),var(--pl));color:#fff;box-shadow:0 3px 10px rgba(21,101,192,.3)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(21,101,192,.4)}
+.btn-outline{background:#fff;color:var(--p);border:2px solid var(--border)}
+.btn-outline:hover{border-color:var(--pl);background:var(--m2b)}
+.btn-sm{padding:8px 16px;font-size:13px}
+.btn-block{display:block;width:100%}
+.home-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+.home-info{background:#fff;border-radius:var(--r);padding:20px;box-shadow:var(--sh);margin-top:8px}
+.home-info h3{font-size:15px;color:var(--p);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.home-info ul{list-style:none;padding:0}
+.home-info li{padding:5px 0;font-size:13px;color:var(--ts);display:flex;align-items:flex-start;gap:6px}
+.home-info li::before{content:"▸";color:var(--pl);flex-shrink:0}
+
+/* Survey */
+.survey-wrap{padding-bottom:80px}
+.progress-bar{position:sticky;top:0;background:linear-gradient(135deg,var(--p),var(--pl));padding:10px 16px;z-index:100;box-shadow:var(--sh)}
+.progress-track{display:flex;align-items:center;gap:2px;max-width:860px;margin:0 auto}
+.prog-dot{flex:1;height:6px;background:rgba(255,255,255,.3);border-radius:3px;transition:all .3s}
+.prog-dot.done{background:#fff}
+.prog-dot.cur{background:#fff;box-shadow:0 0 6px rgba(255,255,255,.8)}
+.prog-label{color:#fff;font-size:12px;text-align:center;margin-top:6px;max-width:860px;margin-left:auto;margin-right:auto}
+.step-content{animation:fadeUp .35s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.step-header{text-align:center;padding:20px 16px 12px}
+.step-header h2{font-size:20px;color:var(--p)}
+.step-header .sub{font-size:13px;color:var(--ts);margin-top:2px}
+.step-header .desc{font-size:12px;color:var(--tm);margin-top:4px}
+.name-input-wrap{text-align:center;padding:20px 16px}
+.name-input{width:100%;max-width:360px;padding:14px 18px;border:2px solid var(--border);border-radius:var(--rs);font-size:17px;color:var(--tp);background:#fff;transition:border .2s;text-align:center}
+.name-input:focus{outline:none;border-color:var(--pl);box-shadow:0 0 0 3px rgba(66,165,245,.15)}
+.name-hint{font-size:12px;color:var(--tm);margin-top:8px}
+
+/* Knowledge items */
+.kp-list{padding:0 4px}
+.kp-item{background:#fff;border-radius:var(--rs);margin-bottom:10px;padding:14px;box-shadow:var(--sh);border:1px solid #EEF5FD;transition:all .2s}
+.kp-item.answered{border-left:3px solid var(--pl)}
+.kp-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.kp-badge{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--pl));color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.kp-info{flex:1}
+.kp-title{font-size:14px;font-weight:500;color:var(--tp);line-height:1.4}
+.kp-mod{font-size:11px;color:var(--tm);margin-top:2px;display:inline-block;background:var(--m2b);padding:1px 8px;border-radius:10px}
+.mastery-row{display:flex;gap:6px;flex-wrap:wrap}
+.mbtn{flex:1;min-width:68px;padding:9px 4px;border:2px solid var(--border);border-radius:var(--rs);background:#fff;font-size:12px;font-weight:600;color:var(--ts);cursor:pointer;transition:all .15s;text-align:center;line-height:1.3}
+.mbtn:active{transform:scale(.96)}
+.mbtn.sel[data-v="mastered"]{background:var(--m1);border-color:var(--m1);color:#fff}
+.mbtn.sel[data-v="basic"]{background:var(--m2);border-color:var(--m2);color:#fff}
+.mbtn.sel[data-v="partial"]{background:var(--m3);border-color:var(--m3);color:#fff}
+.mbtn.sel[data-v="unknown"]{background:var(--m4);border-color:var(--m4);color:#fff}
+.mbtn:not(.sel):hover{border-color:var(--pl);color:var(--p)}
+
+/* Unanswered warning */
+.kp-item.unanswered-warn{border:2px solid var(--m4) !important;border-left:3px solid var(--m4) !important;animation:kpShake .5s ease, kpPulse 1.5s ease .5s 2}
+@keyframes kpShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+@keyframes kpPulse{0%,100%{box-shadow:0 2px 12px rgba(229,57,53,.08)}50%{box-shadow:0 2px 20px rgba(229,57,53,.35)}}
+
+/* Survey nav */
+.survey-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:10px 16px;z-index:100;box-shadow:0 -2px 10px rgba(21,101,192,.06)}
+.survey-nav-inner{max-width:860px;margin:0 auto;display:flex;gap:10px}
+.survey-nav .btn{flex:1}
+
+/* Summary */
+.summary-wrap{padding:16px}
+.summary-card{background:#fff;border-radius:var(--r);padding:16px;box-shadow:var(--sh);margin-bottom:12px}
+.summary-card h3{font-size:15px;color:var(--p);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.sum-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:13px}
+.sum-label{width:50px;font-weight:600;color:var(--ts)}
+.sum-bars{flex:1;height:20px;border-radius:10px;overflow:hidden;display:flex;background:#f0f0f0}
+.sum-bar{height:100%;transition:width .4s}
+.sum-bar[data-v="mastered"]{background:var(--m1)}
+.sum-bar[data-v="basic"]{background:var(--m2)}
+.sum-bar[data-v="partial"]{background:var(--m3)}
+.sum-bar[data-v="unknown"]{background:var(--m4)}
+.sum-pct{width:44px;text-align:right;font-weight:600;color:var(--p)}
+
+/* Results */
+.res-tabs{display:flex;background:#fff;border-bottom:2px solid var(--border);position:sticky;top:0;z-index:50}
+.res-tab{flex:1;padding:12px 4px;text-align:center;font-size:14px;font-weight:600;color:var(--ts);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}
+.res-tab.active{color:var(--p);border-bottom-color:var(--p)}
+.res-tab .ico{font-size:18px;display:block;margin-bottom:2px}
+.tab-content{display:none;animation:fadeUp .3s ease}
+.tab-content.active{display:block}
+.res-actions{display:flex;gap:8px;padding:12px 4px;flex-wrap:wrap}
+.res-actions .btn{flex:1;min-width:120px}
+.sel-wrap{padding:12px 4px}
+.sel-wrap label{font-size:13px;color:var(--ts);margin-right:8px}
+.sel-wrap select{padding:8px 12px;border:2px solid var(--border);border-radius:var(--rs);font-size:14px;color:var(--tp);background:#fff;cursor:pointer}
+
+/* Stat cards */
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 4px 12px}
+.stat-card{background:#fff;border-radius:var(--rs);padding:14px;box-shadow:var(--sh);text-align:center}
+.stat-card .val{font-size:26px;font-weight:700;color:var(--p)}
+.stat-card .val.red{color:var(--m4)}
+.stat-card .val.green{color:var(--m1)}
+.stat-card .val.orange{color:var(--m3)}
+.stat-card .lbl{font-size:12px;color:var(--ts);margin-top:2px}
+
+/* Charts */
+.chart-card{background:#fff;border-radius:var(--r);padding:16px;box-shadow:var(--sh);margin-bottom:12px}
+.chart-card h3{font-size:14px;color:var(--p);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px}
+.bar-label{width:36px;font-weight:600;color:var(--ts);text-align:right;flex-shrink:0}
+.bar-track{flex:1;height:22px;border-radius:6px;overflow:hidden;display:flex;background:#F5F5F5}
+.bar-seg{height:100%;transition:width .5s ease;position:relative}
+.bar-seg[data-v="mastered"]{background:var(--m1)}
+.bar-seg[data-v="basic"]{background:var(--m2)}
+.bar-seg[data-v="partial"]{background:var(--m3)}
+.bar-seg[data-v="unknown"]{background:var(--m4)}
+.bar-val{width:40px;text-align:right;font-weight:600;color:var(--p);flex-shrink:0}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:11px;color:var(--ts)}
+.legend span{display:flex;align-items:center;gap:3px}
+.legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
+
+/* Table */
+.tbl-wrap{overflow-x:auto;margin-bottom:4px}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{background:var(--m2b);color:var(--p);padding:8px;text-align:center;font-weight:600;white-space:nowrap}
+.tbl td{padding:7px 8px;text-align:center;border-bottom:1px solid #EEF5FD}
+.tbl tr:hover{background:var(--m2b)}
+.rank-badge{display:inline-flex;width:22px;height:22px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.rank-1{background:#FFD700;color:#fff}
+.rank-2{background:#C0C0C0;color:#fff}
+.rank-3{background:#CD7F32;color:#fff}
+.rank-o{background:var(--m2b);color:var(--p)}
+.pct-bar{display:inline-block;width:50px;height:8px;background:#eee;border-radius:4px;overflow:hidden;vertical-align:middle;margin-right:4px}
+.pct-fill{height:100%;background:linear-gradient(90deg,var(--pl),var(--p));border-radius:4px}
+
+/* Weak points */
+.wp-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border-radius:var(--rs);margin-bottom:6px;font-size:13px;box-shadow:var(--sh);border-left:3px solid var(--m4)}
+.wp-item.partial{border-left-color:var(--m3)}
+.wp-item.basic{border-left-color:var(--m2)}
+.wp-item.mastered{border-left-color:var(--m1)}
+.wp-badge{font-size:11px;font-weight:700;color:#fff;padding:2px 6px;border-radius:8px}
+.wp-badge.mastered{background:var(--m1)}
+.wp-badge.basic{background:var(--m2)}
+.wp-badge.partial{background:var(--m3)}
+.wp-badge.unknown{background:var(--m4)}
+.wp-info{flex:1}
+.wp-title{font-weight:500;color:var(--tp)}
+.wp-sub{font-size:11px;color:var(--tm)}
+
+/* Subject detail (parent view) */
+.subj-detail-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.subj-detail-icon{font-size:20px}
+.subj-detail-name{font-size:16px;font-weight:700;color:var(--p);flex:1}
+.subj-detail-pct{font-size:16px;font-weight:700;color:var(--m2)}
+.kp-cat-group{margin-bottom:8px}
+.kp-cat-hdr{font-size:13px;font-weight:600;padding:5px 10px;border-radius:var(--rs);margin-bottom:4px}
+.kp-cat-hdr.c-unknown{color:var(--m4);background:var(--m4b)}
+.kp-cat-hdr.c-partial{color:var(--m3);background:var(--m3b)}
+.kp-cat-hdr.c-basic{color:var(--m2);background:var(--m2b)}
+.kp-cat-hdr.c-mastered{color:var(--m1);background:var(--m1b)}
+
+/* Radar */
+.radar-wrap{display:flex;justify-content:center;padding:10px 0}
+.radar-svg{max-width:280px;width:100%;height:auto}
+
+/* Doubao banner */
+.db-banner{background:linear-gradient(135deg,#1a73e8,#4285f4);color:#fff;border-radius:var(--r);padding:16px;margin:12px 4px;text-align:center}
+.db-banner h4{font-size:15px;margin-bottom:4px}
+.db-banner p{font-size:12px;opacity:.9;margin-bottom:10px}
+.db-btn{background:#fff;color:#1a73e8;border:none;padding:10px 24px;border-radius:24px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+.db-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.db-btn:active{transform:scale(.97)}
+
+/* Modal */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center;padding:16px}
+.modal-bg.show{display:flex}
+.modal{background:#fff;border-radius:var(--r);max-width:500px;width:100%;padding:20px;max-height:80vh;overflow-y:auto}
+.modal h3{font-size:17px;color:var(--p);margin-bottom:10px}
+.modal p{font-size:13px;color:var(--ts);margin-bottom:10px}
+.modal textarea{width:100%;min-height:120px;padding:10px;border:2px solid var(--border);border-radius:var(--rs);font-size:12px;font-family:monospace;resize:vertical}
+.modal-actions{display:flex;gap:10px;margin-top:12px}
+.modal-actions .btn{flex:1}
+.modal-close{float:right;font-size:20px;cursor:pointer;color:var(--tm);background:none;border:none;line-height:1}
+
+/* Toast */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(33,33,33,.92);color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;z-index:300;opacity:0;transition:all .3s;max-width:90%;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.success{background:var(--m1)}
+.toast.error{background:var(--m4)}
+
+/* Student list */
+.stu-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#fff;border-radius:var(--rs);margin-bottom:6px;box-shadow:var(--sh);font-size:13px}
+.stu-item .nm{flex:1;font-weight:600;color:var(--tp)}
+.stu-item .pct{font-weight:700;color:var(--p)}
+.stu-del{background:var(--m4b);border:1px solid var(--m4);color:var(--m4);cursor:pointer;font-size:12px;padding:3px 10px;border-radius:6px;font-weight:600;transition:all .2s;white-space:nowrap}
+.stu-del:hover{background:var(--m4);color:#fff}
+
+/* Responsive */
+@media(min-width:600px){
+.stat-grid{grid-template-columns:repeat(4,1fr)}
+.stat-grid-6{grid-template-columns:repeat(3,1fr)}
+.hdr h1{font-size:24px}
+.step-header h2{font-size:24px}
+.mbtn{font-size:13px}
+}
+@media(max-width:360px){
+.mbtn{min-width:56px;font-size:11px;padding:8px 2px}
+.kp-badge{width:22px;height:22px;font-size:11px}
+}
+
+/* Loading overlay */
+.loading-overlay{display:none;position:fixed;inset:0;background:rgba(255,255,255,.85);z-index:500;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.loading-overlay.show{display:flex}
+.spinner{width:40px;height:40px;border:4px solid var(--m2b);border-top-color:var(--p);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:14px;color:var(--p);font-weight:600}
+
+/* Cloud status badge */
+.cloud-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 8px;border-radius:10px;background:rgba(255,255,255,.2);margin-left:8px;vertical-align:middle}
+.cloud-badge.online{background:rgba(76,175,80,.2)}
+.cloud-badge.offline{background:rgba(255,255,255,.15)}
+.cloud-dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.cloud-dot.on{background:#4CAF50;box-shadow:0 0 4px #4CAF50}
+.cloud-dot.off{background:#bbb}
+
+/* Setup prompt */
+.setup-card{background:#fff;border-radius:var(--r);padding:20px;margin:16px;box-shadow:var(--sh);max-width:560px;margin-left:auto;margin-right:auto}
+.setup-card h3{color:var(--p);font-size:16px;margin-bottom:10px}
+.setup-card ol{padding-left:20px;font-size:13px;color:var(--ts);line-height:2}
+.setup-card code{background:var(--m2b);padding:2px 6px;border-radius:4px;font-size:12px;color:var(--p)}
+.setup-card input{width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:var(--rs);font-size:13px;margin:4px 0 8px;font-family:monospace}
+.setup-card input:focus{outline:none;border-color:var(--pl)}
+</style>
+</head>
+<body>
+
+<!-- ============ HOME ============ -->
+<div id="home-view" class="view active">
+<div class="hdr">
+<h1>📚 高三知识点掌握情况调研</h1>
+<p>高二升高三 · 六科全维度学情分析<span class="cloud-badge offline" id="home-cloud"><span class="cloud-dot off"></span>本地模式</span></p>
+</div>
+<div class="container">
+<div class="home-hero">
+<div class="icon">🎓</div>
+<h2>全面把脉 · 精准提升</h2>
+<p>覆盖语文、数学、英语、物理、化学、生物六大科目，共计61个核心知识模块，帮助学生、家长、老师全面了解学习状况，有针对性地进行指导。</p>
+<div class="home-stats" id="home-stats"></div>
+<div class="home-actions">
+<button class="btn btn-primary" onclick="startSurvey()">✍️ 开始填写调研</button>
+<button class="btn btn-outline" onclick="showResults()">📊 查看统计结果</button>
+</div>
+</div>
+<div class="home-info">
+<h3>📋 调研说明</h3>
+<ul>
+<li><b>语文</b>（写作强化）：11个知识模块，覆盖阅读基础、语用基础、议论文写作、其他写作、写作提升</li>
+<li><b>数学</b>：10个知识模块，覆盖函数与导数、三角与解三角形</li>
+<li><b>英语</b>（写作强化）：10个知识模块，覆盖语法基础、阅读题型、应用文写作、读后续写</li>
+<li><b>物理</b>：10个知识模块，覆盖力学基础、能量与动量、力学综合、电磁学开篇</li>
+<li><b>化学</b>：10个知识模块，覆盖基础原理、电化学、元素化合物、反应原理</li>
+<li><b>生物</b>（遗传核心）：10个知识模块，覆盖基础铺垫、遗传定律、分子遗传、变异与育种、遗传综合</li>
+<li><b>四个量级</b>：完全掌握 / 基本掌握 / 部分掌握 / 不会</li>
+<li><b>三种视角</b>：老师视角（班级全局）、家长视角（个体对比）、学生视角（自我提升）</li>
+<li><b>一键分析</b>：支持提交豆包AI进行深度分析，无需登录即可使用</li>
+</ul>
+</div>
+<div class="home-info">
+<h3>💡 使用流程</h3>
+<ul>
+<li>每位学生/家长点击「开始填写调研」，输入姓名后逐科评估</li>
+<li>填写完成后数据自动保存在本设备，可随时查看统计</li>
+<li>如需汇总多人数据：用「导出数据」生成分享码，发送给汇总人「导入数据」</li>
+<li>在统计页面选择老师/家长/学生视角，点击「提交豆包分析」获取AI建议</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- ============ SURVEY ============ -->
+<div id="survey-view" class="view">
+<div class="progress-bar">
+<div class="progress-track" id="prog-track"></div>
+<div class="prog-label" id="prog-label"></div>
+</div>
+<div class="container survey-wrap">
+<div id="step-content" class="step-content"></div>
+</div>
+<div class="survey-nav">
+<div class="survey-nav-inner">
+<button class="btn btn-outline" id="btn-prev" onclick="prevStep()">← 上一步</button>
+<button class="btn btn-primary" id="btn-next" onclick="nextStep()">下一步 →</button>
+</div>
+</div>
+</div>
+
+<!-- ============ RESULTS ============ -->
+<div id="results-view" class="view">
+<div class="hdr">
+<h1>📊 学情统计分析</h1>
+<p id="res-subtitle"><span class="cloud-badge offline" id="res-cloud"><span class="cloud-dot off"></span>本地模式</span></p>
+</div>
+<div class="res-tabs">
+<div class="res-tab active" data-tab="teacher" onclick="switchTab('teacher')"><span class="ico">👨‍🏫</span>老师视角</div>
+<div class="res-tab" data-tab="parent" onclick="switchTab('parent')"><span class="ico">👨‍👩‍👧</span>家长视角</div>
+<div class="res-tab" data-tab="student" onclick="switchTab('student')"><span class="ico">📖</span>学生视角</div>
+</div>
+<div class="container">
+
+<div class="res-actions">
+<button class="btn btn-outline btn-sm" onclick="exportData()">📤 导出数据</button>
+<button class="btn btn-outline btn-sm" onclick="showImport()">📥 导入数据</button>
+<button class="btn btn-outline btn-sm" onclick="startSurvey()">➕ 新增填写</button>
+<button class="btn btn-outline btn-sm" onclick="goHome()">🏠 返回首页</button>
+<button class="btn btn-outline btn-sm" onclick="resetCloudConfig()">⚙️ 云端设置</button>
+</div>
+
+<div id="tab-teacher" class="tab-content active"></div>
+<div id="tab-parent" class="tab-content"></div>
+<div id="tab-student" class="tab-content"></div>
+</div>
+</div>
+
+<!-- ============ IMPORT MODAL ============ -->
+<div id="import-modal" class="modal-bg" onclick="if(event.target===this)closeImport()">
+<div class="modal">
+<button class="modal-close" onclick="closeImport()">×</button>
+<h3>📥 导入数据</h3>
+<p>将其他设备导出的分享码粘贴到下方，点击「导入」即可合并数据。</p>
+<textarea id="import-code" placeholder="在此粘贴分享码..."></textarea>
+<div class="modal-actions">
+<button class="btn btn-outline" onclick="closeImport()">取消</button>
+<button class="btn btn-primary" onclick="doImport()">导入</button>
+</div>
+</div>
+</div>
+
+<!-- ============ LOADING ============ -->
+<div id="loading-overlay" class="loading-overlay">
+<div class="spinner"></div>
+<div class="loading-text" id="loading-text">正在加载数据...</div>
+</div>
+
+<!-- ============ SETUP PROMPT ============ -->
+<div id="setup-prompt" style="display:none">
+<div class="setup-card">
+<h3>🔧 首次使用 — 配置 Supabase 云数据库</h3>
+<p style="font-size:13px;color:var(--ts);margin-bottom:10px">当前为本地存储模式，数据仅保存在当前浏览器。配置 Supabase 后可实现多设备实时共享。</p>
+<ol>
+<li>访问 <a href="https://supabase.com" target="_blank" style="color:var(--p)">supabase.com</a> 注册免费账号</li>
+<li>创建新项目（选择 Free 计划）</li>
+<li>进入 SQL Editor，运行 <code>supabase-setup.sql</code> 脚本</li>
+<li>进入 Settings → API，复制 Project URL 和 anon key</li>
+<li>填入下方，点击「保存配置」</li>
+</ol>
+<input type="text" id="setup-url" placeholder="Project URL（如 https://xxx.supabase.co）">
+<input type="text" id="setup-key" placeholder="anon key（以 eyJ 开头的长字符串）">
+<button class="btn btn-primary btn-block" onclick="saveSupabaseConfig()">💾 保存配置并连接</button>
+<button class="btn btn-outline btn-block" style="margin-top:8px" onclick="skipSetup()">跳过，使用本地存储模式</button>
+</div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div id="toast" class="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ===== DATA =====
+const SUBJECTS=[
+{id:'chinese',name:'语文',sub:'写作强化',icon:'📖',color:'#E91E63',items:[
+{id:'A',t:'小说阅读全题型（情节/人物/环境/主旨/探究）',m:'阅读基础'},
+{id:'B',t:'非连续性文本阅读（客观题避坑+主观题信息整合）',m:'阅读基础'},
+{id:'C',t:'文言文阅读（断句/核心实词/翻译得分技巧）',m:'阅读基础'},
+{id:'D',t:'整本书阅读（《乡土中国》《红楼梦》教考衔接）',m:'阅读基础'},
+{id:'E',t:'语言文字运用核心题型（病句/补写句子）',m:'语用基础'},
+{id:'F',t:'议论文审题立意方法与偏题规避',m:'议论文写作'},
+{id:'G',t:'议论文结构搭建与分论点设计',m:'议论文写作'},
+{id:'H',t:'论证方法强化与素材一材多用技巧',m:'议论文写作'},
+{id:'I',t:'作文语言升格与思辨性深度提升',m:'议论文写作'},
+{id:'J',t:'实用类文体写作（发言稿/书信/演讲稿）',m:'其他写作'},
+{id:'K',t:'作文错题复盘与个性化升格指导',m:'写作提升'},
+]},
+{id:'math',name:'数学',sub:'',icon:'📐',color:'#9C27B0',items:[
+{id:'A',t:'指对幂函数性质与比大小技巧',m:'函数与导数'},
+{id:'B',t:'函数核心性质与图像综合应用',m:'函数与导数'},
+{id:'C',t:'函数零点问题与抽象函数专项',m:'函数与导数'},
+{id:'D',t:'导数基础与切线方程求解',m:'函数与导数'},
+{id:'E',t:'导数单调性与含参讨论',m:'函数与导数'},
+{id:'F',t:'导数零点求参与不等式恒成立',m:'函数与导数'},
+{id:'G',t:'导数与不等式证明压轴技巧',m:'函数与导数'},
+{id:'H',t:'三角恒等变换与图像性质',m:'三角与解三角形'},
+{id:'I',t:'正余弦定理与解三角形基础',m:'三角与解三角形'},
+{id:'J',t:'解三角形最值与范围综合题',m:'三角与解三角形'},
+]},
+{id:'english',name:'英语',sub:'写作强化',icon:'🔤',color:'#3F51B5',items:[
+{id:'A',t:'三大从句与动词核心语法体系',m:'语法基础'},
+{id:'B',t:'语法填空全题型解题技巧',m:'基础题型'},
+{id:'C',t:'阅读理解核心题型（细节/主旨/七选五）',m:'阅读题型'},
+{id:'D',t:'完形填空逻辑与高频词汇积累',m:'基础题型'},
+{id:'E',t:'应用文高频题型格式与基础框架',m:'应用文写作'},
+{id:'F',t:'应用文高分句型与句式升级优化',m:'应用文写作'},
+{id:'G',t:'应用文话题词汇与易错点规避',m:'应用文写作'},
+{id:'H',t:'读后续写情节构建与逻辑推进',m:'读后续写'},
+{id:'I',t:'读后续写五感细节描写技法',m:'读后续写'},
+{id:'J',t:'读后续写句式升级与主题升华',m:'读后续写'},
+]},
+{id:'physics',name:'物理',sub:'',icon:'⚛️',color:'#F44336',items:[
+{id:'A',t:'受力分析与动态平衡问题',m:'力学基础'},
+{id:'B',t:'运动学图像与牛顿运动定律综合',m:'力学基础'},
+{id:'C',t:'曲线运动（平抛/圆周）核心题型',m:'力学基础'},
+{id:'D',t:'万有引力与航天专项',m:'力学基础'},
+{id:'E',t:'功、功率与能量守恒定律',m:'能量与动量'},
+{id:'F',t:'动量定理与动量守恒定律',m:'能量与动量'},
+{id:'G',t:'力学综合计算题（多过程/碰撞/临界）',m:'力学综合'},
+{id:'H',t:'静电场与带电粒子偏转',m:'电磁学开篇'},
+{id:'I',t:'磁场与带电粒子复合场问题',m:'电磁学开篇'},
+{id:'J',t:'电磁感应核心题型（线框/单棒/双棒）',m:'电磁学开篇'},
+]},
+{id:'chemistry',name:'化学',sub:'',icon:'🧪',color:'#4CAF50',items:[
+{id:'A',t:'离子反应与离子方程式书写',m:'基础原理'},
+{id:'B',t:'氧化还原反应与方程式配平',m:'基础原理'},
+{id:'C',t:'原电池与化学电源',m:'电化学'},
+{id:'D',t:'电解池原理与电化学综合',m:'电化学'},
+{id:'E',t:'金属元素及其化合物（钠/铁）',m:'元素化合物'},
+{id:'F',t:'非金属元素及其化合物（氮/硫）',m:'元素化合物'},
+{id:'G',t:'化学反应速率与影响因素',m:'反应原理'},
+{id:'H',t:'化学平衡、平衡移动与图像分析',m:'反应原理'},
+{id:'I',t:'弱电解质电离与水的电离平衡',m:'反应原理'},
+{id:'J',t:'盐类水解与微粒浓度大小比较',m:'反应原理'},
+]},
+{id:'biology',name:'生物',sub:'遗传核心',icon:'🧬',color:'#009688',items:[
+{id:'A',t:'细胞代谢核心考点（呼吸/光合）',m:'基础铺垫'},
+{id:'B',t:'细胞分裂与遗传的细胞学基础',m:'基础铺垫'},
+{id:'C',t:'基因分离定律与基础题型',m:'遗传定律'},
+{id:'D',t:'基因自由组合定律与常规计算',m:'遗传定律'},
+{id:'E',t:'遗传定律特殊比例与拓展题型',m:'遗传定律'},
+{id:'F',t:'伴性遗传与遗传系谱图分析',m:'遗传定律'},
+{id:'G',t:'基因的本质与基因表达',m:'分子遗传'},
+{id:'H',t:'生物变异与育种应用',m:'变异与育种'},
+{id:'I',t:'遗传实验设计与探究大题专项',m:'遗传综合'},
+{id:'J',t:'遗传综合题型复盘与解题策略',m:'遗传综合'},
+]},
+];
+
+const MASTERY={
+mastered:{label:'完全掌握',short:'完全',color:'#43A047',bg:'#E8F5E9',score:4},
+basic:{label:'基本掌握',short:'基本',color:'#1565C0',bg:'#E3F2FD',score:3},
+partial:{label:'部分掌握',short:'部分',color:'#FB8C00',bg:'#FFF3E0',score:2},
+unknown:{label:'不会',short:'不会',color:'#E53935',bg:'#FFEBEE',score:1},
+};
+const MASTERY_ORDER=['mastered','basic','partial','unknown'];
+const TOTAL_STEPS=8; // 0:name,1-6:subjects,7:summary
+
+// ===== STATE =====
+let S={
+view:'home',
+step:0,
+student:{name:'',responses:{}},
+students:[],
+selStu:0,
+tab:'teacher',
+};
+
+// ===== SUPABASE CONFIG =====
+let supabaseClient=null;
+let isCloud=false;
+
+// Hardcoded defaults for the active Supabase project
+const DEFAULT_SB_URL='https://agsvjdmdyzyemhdityxs.supabase.co';
+const DEFAULT_SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFnc3ZqZG1keXp5ZW1oZGl0eXhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM1Mzc0NTQsImV4cCI6MjA5OTExMzQ1NH0.2BoFajFfU3SgCYFl5FwvVi6YVEwywjWE0iZU59T5NRc';
+
+function getSupabaseConfig(){
+// Always use hardcoded config by default; localStorage override only if explicitly set via setup page
+const savedUrl=localStorage.getItem('sb_url');
+const savedKey=localStorage.getItem('sb_key');
+// If saved config matches the old broken project, clear it
+if(savedUrl&&savedUrl.indexOf('pssikljmpnnsziumlijb')!==-1){
+localStorage.removeItem('sb_url');
+localStorage.removeItem('sb_key');
+return{url:DEFAULT_SB_URL,key:DEFAULT_SB_KEY};
+}
+return{
+url:savedUrl||DEFAULT_SB_URL,
+key:savedKey||DEFAULT_SB_KEY,
+};
+}
+
+function initSupabase(){
+const cfg=getSupabaseConfig();
+if(cfg.url&&cfg.key&&window.supabase){
+try{
+supabaseClient=window.supabase.createClient(cfg.url,cfg.key,{auth:{persistSession:false}});
+isCloud=true;
+console.log('[Supabase] Client created with URL:',cfg.url);
+}catch(e){console.error('[Supabase] Init failed:',e);isCloud=false;}
+}else{
+console.log('[Supabase] Config missing or SDK not loaded. url=',cfg.url,'sdk=',!!window.supabase);
+}
+}
+
+function saveSupabaseConfig(){
+const url=document.getElementById('setup-url').value.trim();
+const key=document.getElementById('setup-key').value.trim();
+if(!url||!key){toast('请填写完整','error');return;}
+localStorage.setItem('sb_url',url);
+localStorage.setItem('sb_key',key);
+location.reload();
+}
+
+function skipSetup(){
+document.getElementById('setup-prompt').style.display='block';
+document.querySelector('#setup-prompt').style.display='block';
+document.getElementById('home-view').style.display='none';
+renderHomeStats();
+toast('当前为本地存储模式，数据仅保存在本浏览器','success');
+}
+
+function resetCloudConfig(){
+const pwd=prompt('请输入管理密码：');
+if(pwd===null)return;
+if(pwd!=='1717'){
+toast('密码错误','error');
+return;
+}
+localStorage.removeItem('sb_url');
+localStorage.removeItem('sb_key');
+location.reload();
+}
+
+function showLoading(text){
+const o=document.getElementById('loading-overlay');
+document.getElementById('loading-text').textContent=text||'加载中...';
+o.classList.add('show');
+}
+function hideLoading(){
+document.getElementById('loading-overlay').classList.remove('show');
+}
+
+function updateCloudBadge(){
+const badges=document.querySelectorAll('.cloud-badge');
+badges.forEach(b=>{
+b.className='cloud-badge '+(isCloud?'online':'offline');
+b.innerHTML='<span class="cloud-dot '+(isCloud?'on':'off')+'"></span>'+(isCloud?'云端已连接':'本地模式');
+});
+}
+
+// ===== INIT =====
+async function init(){
+initSupabase();
+// With hardcoded defaults, always try to connect
+showLoading('正在加载数据...');
+await loadStudents();
+hideLoading();
+updateCloudBadge();
+renderHomeStats();
+if(isCloud)subscribeToChanges();
+}
+
+async function loadStudents(){
+if(isCloud){
+try{
+const{data,error}=await supabaseClient.from('survey_responses').select('*').order('timestamp',{ascending:true});
+if(error)throw error;
+S.students=(data||[]).map(d=>({id:d.id,name:d.name,timestamp:d.timestamp,responses:d.responses||{}}));
+}catch(e){
+console.error('Cloud load failed:',e);
+try{S.students=JSON.parse(localStorage.getItem('survey_students')||'[]');}catch(e2){S.students=[];}
+toast('云端加载失败，使用本地缓存','error');
+}
+}else{
+try{S.students=JSON.parse(localStorage.getItem('survey_students')||'[]');}catch(e){S.students=[];}
+}
+}
+function saveStudentsLocal(){
+localStorage.setItem('survey_students',JSON.stringify(S.students));
+}
+
+async function saveToCloud(data){
+if(!isCloud){console.log('[Cloud] Not in cloud mode, skipping save');return;}
+try{
+// Check if student exists in cloud
+const{data:existing,error:selErr}=await supabaseClient.from('survey_responses').select('id').eq('name',data.name);
+if(selErr){console.error('[Cloud] Query existing failed:',selErr);throw selErr;}
+if(existing&&existing.length>0){
+const{error}=await supabaseClient.from('survey_responses').update({timestamp:data.timestamp,responses:data.responses}).eq('id',existing[0].id);
+if(error){console.error('[Cloud] Update failed:',error);throw error;}
+console.log('[Cloud] Updated record for',data.name);
+}else{
+const{error}=await supabaseClient.from('survey_responses').insert([{name:data.name,timestamp:data.timestamp,responses:data.responses}]);
+if(error){console.error('[Cloud] Insert failed:',error);throw error;}
+console.log('[Cloud] Inserted record for',data.name);
+}
+}catch(e){
+console.error('[Cloud] Save failed:',e);
+saveStudentsLocal();
+toast('云端保存失败：'+e.message,'error');
+}
+}
+
+async function deleteFromCloud(studentId){
+if(!isCloud||!studentId)return true;
+try{
+const{error}=await supabaseClient.from('survey_responses').delete().eq('id',studentId);
+if(error)throw error;
+console.log('[Cloud] Deleted record',studentId);
+return true;
+}catch(e){
+console.error('[Cloud] Delete failed:',e);
+return false;
+}
+}
+
+// Real-time subscription
+let realtimeChannel=null;
+function subscribeToChanges(){
+if(!isCloud)return;
+if(realtimeChannel)realtimeChannel.unsubscribe();
+realtimeChannel=supabaseClient.channel('survey-changes')
+.on('postgres_changes',{event:'*',schema:'public',table:'survey_responses'},async()=>{
+// Reload data silently
+await loadStudents();
+if(S.view==='results')renderAllTabs();
+if(S.view==='home')renderHomeStats();
+})
+.subscribe();
+}
+
+// ===== HOME =====
+function renderHomeStats(){
+const el=document.getElementById('home-stats');
+const n=S.students.length;
+let avg='—';
+if(n>0){
+const allScores=[];
+S.students.forEach(st=>{
+SUBJECTS.forEach(sub=>{
+(sub.items||[]).forEach(it=>{
+const v=st.responses[sub.id]&&st.responses[sub.id][it.id];
+if(v)allScores.push(MASTERY[v].score);
+});
+});
+});
+if(allScores.length)avg=Math.round(allScores.reduce((a,b)=>a+b,0)/allScores.length*25)+'%';
+}
+el.innerHTML=`
+<div class="home-stat"><div class="num">${n}</div><div class="lbl">参与调研</div></div>
+<div class="home-stat"><div class="num">${avg}</div><div class="lbl">平均掌握率</div></div>
+<div class="home-stat"><div class="num">6</div><div class="lbl">科目覆盖</div></div>
+<div class="home-stat"><div class="num">61</div><div class="lbl">知识模块</div></div>`;
+}
+function goHome(){
+S.view='home';
+showView('home');
+renderHomeStats();
+updateCloudBadge();
+}
+
+// ===== VIEW SWITCH =====
+function showView(name){
+document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+document.getElementById(name+'-view').classList.add('active');
+window.scrollTo(0,0);
+}
+
+// ===== SURVEY =====
+function startSurvey(){
+S.student={name:'',responses:{}};
+S.step=0;
+S.view='survey';
+showView('survey');
+renderStep();
+}
+
+function renderProgress(){
+const track=document.getElementById('prog-track');
+const label=document.getElementById('prog-label');
+let dots='';
+const names=['姓名','语文','数学','英语','物理','化学','生物','确认'];
+for(let i=0;i<TOTAL_STEPS;i++){
+const cls=i<S.step?'done':(i===S.step?'cur':'');
+dots+=`<div class="prog-dot ${cls}"></div>`;
+}
+track.innerHTML=dots;
+label.textContent=`步骤 ${S.step+1}/${TOTAL_STEPS} · ${names[S.step]}`;
+}
+
+function renderStep(){
+renderProgress();
+const c=document.getElementById('step-content');
+const btnPrev=document.getElementById('btn-prev');
+const btnNext=document.getElementById('btn-next');
+btnPrev.style.visibility=S.step===0?'hidden':'visible';
+
+if(S.step===0){
+btnNext.textContent='开始评估 →';
+c.innerHTML=`
+<div class="step-header">
+<h2>📝 学生信息</h2>
+<div class="sub">请输入学生姓名</div>
+<div class="desc">后续将依次评估六科共61个知识模块的掌握情况</div>
+</div>
+<div class="name-input-wrap">
+<input type="text" class="name-input" id="stu-name" placeholder="请输入学生姓名" value="${esc(S.student.name)}" oninput="S.student.name=this.value">
+<div class="name-hint">提示：姓名将用于统计和对比，请填写真实姓名</div>
+</div>`;
+setTimeout(()=>document.getElementById('stu-name').focus(),100);
+}
+else if(S.step<TOTAL_STEPS-1){
+const sub=SUBJECTS[S.step-1];
+btnNext.textContent=S.step===6?'确认提交 ✓':'下一科 →';
+const items=sub.items.map(it=>{
+const sel=S.student.responses[sub.id]&&S.student.responses[sub.id][it.id];
+return `<div class="kp-item ${sel?'answered':''}" data-sid="${sub.id}" data-iid="${it.id}">
+<div class="kp-head">
+<div class="kp-badge">${it.id}</div>
+<div class="kp-info">
+<div class="kp-title">${esc(it.t)}</div>
+<div class="kp-mod">${esc(it.m)}</div>
+</div>
+</div>
+<div class="mastery-row">
+${MASTERY_ORDER.map(v=>`<button class="mbtn ${sel===v?'sel':''}" data-v="${v}" onclick="selectMastery('${sub.id}','${it.id}','${v}')">${MASTERY[v].label}</button>`).join('')}
+</div>
+</div>`;
+}).join('');
+c.innerHTML=`
+<div class="step-header">
+<h2>${sub.icon} ${sub.name}${sub.sub?' <span style="font-size:14px;color:var(--ts)">（${sub.sub}）</span>':''}</h2>
+<div class="sub">请评估以下${sub.items.length}个知识模块的掌握情况</div>
+</div>
+<div class="kp-list" id="kp-list">${items}</div>`;
+}
+else if(S.step===TOTAL_STEPS-1){
+btnNext.textContent='提交调研 ✓';
+btnNext.style.background='linear-gradient(135deg,#43A047,#66BB6A)';
+let summaryHTML='';
+SUBJECTS.forEach(sub=>{
+const resps=S.student.responses[sub.id]||{};
+const counts={mastered:0,basic:0,partial:0,unknown:0,none:0};
+sub.items.forEach(it=>{const v=resps[it.id];if(v)counts[v]++;else counts.none++;});
+const total=sub.items.length;
+const answered=total-counts.none;
+const score=counts.mastered*4+counts.basic*3+counts.partial*2+counts.unknown*1;
+const pct=answered>0?Math.round(score/answered/4*100):0;
+summaryHTML+=`
+<div class="summary-card">
+<h3>${sub.icon} ${sub.name}${sub.sub?'（'+sub.sub+'）':''}</h3>
+<div class="sum-row">
+<div class="sum-label">${sub.name}</div>
+<div class="sum-bars">
+${counts.mastered?`<div class="sum-bar" data-v="mastered" style="width:${counts.mastered/total*100}%"></div>`:''}
+${counts.basic?`<div class="sum-bar" data-v="basic" style="width:${counts.basic/total*100}%"></div>`:''}
+${counts.partial?`<div class="sum-bar" data-v="partial" style="width:${counts.partial/total*100}%"></div>`:''}
+${counts.unknown?`<div class="sum-bar" data-v="unknown" style="width:${counts.unknown/total*100}%"></div>`:''}
+${counts.none?`<div class="sum-bar" style="width:${counts.none/total*100}%;background:#eee"></div>`:''}
+</div>
+<div class="sum-pct">${answered>0?pct+'%':'未填'}</div>
+</div>
+<div style="font-size:11px;color:var(--tm);margin-left:58px">完全${counts.mastered} · 基本${counts.basic} · 部分${counts.partial} · 不会${counts.unknown}${counts.none?' · 未填'+counts.none:''}</div>
+</div>`;
+});
+c.innerHTML=`
+<div class="step-header">
+<h2>✓ 确认提交</h2>
+<div class="sub">学生：${esc(S.student.name)}</div>
+<div class="desc">请确认以下评估结果，点击「提交调研」保存数据</div>
+</div>
+<div class="summary-wrap">${summaryHTML}</div>`;
+}
+}
+
+function selectMastery(sid,iid,v){
+if(!S.student.responses[sid])S.student.responses[sid]={};
+S.student.responses[sid][iid]=v;
+const item=document.querySelector(`.kp-item[data-sid="${sid}"][data-iid="${iid}"]`);
+if(item){
+item.classList.add('answered');
+item.querySelectorAll('.mbtn').forEach(b=>{b.classList.toggle('sel',b.dataset.v===v);});
+}
+// Auto-scroll to next unanswered
+const next=item.nextElementSibling;
+if(next){next.scrollIntoView({behavior:'smooth',block:'center'});}
+}
+
+function nextStep(){
+if(S.step===0){
+if(!S.student.name.trim()){toast('请输入学生姓名','error');return;}
+S.step++;
+renderStep();
+}
+else if(S.step<TOTAL_STEPS-1){
+const sub=SUBJECTS[S.step-1];
+const resps=S.student.responses[sub.id]||{};
+const unanswered=sub.items.filter(it=>!resps[it.id]);
+if(unanswered.length>0){
+unanswered.forEach(it=>{
+const el=document.querySelector(`.kp-item[data-sid="${sub.id}"][data-iid="${it.id}"]`);
+if(el){
+el.classList.add('unanswered-warn');
+setTimeout(()=>el.classList.remove('unanswered-warn'),3500);
+}
+});
+const firstEl=document.querySelector(`.kp-item[data-sid="${sub.id}"][data-iid="${unanswered[0].id}"]`);
+if(firstEl)firstEl.scrollIntoView({behavior:'smooth',block:'center'});
+toast(`「${sub.name}」还有 ${unanswered.length} 个知识点未作答，请全部评估后再继续`,'error');
+return;
+}
+S.step++;
+renderStep();
+window.scrollTo({top:0,behavior:'smooth'});
+}
+else{
+saveSurvey();
+}
+}
+
+function prevStep(){
+if(S.step>0){
+S.step--;
+renderStep();
+window.scrollTo({top:0,behavior:'smooth'});
+}
+}
+
+async function saveSurvey(){
+showLoading('正在保存到云端...');
+const existing=S.students.findIndex(s=>s.name===S.student.name.trim());
+const data={
+name:S.student.name.trim(),
+timestamp:new Date().toISOString(),
+responses:S.student.responses,
+};
+// Keep existing cloud id
+if(existing>=0&&S.students[existing].id)data.id=S.students[existing].id;
+if(existing>=0){
+S.students[existing]=data;
+}else{
+S.students.push(data);
+}
+saveStudentsLocal();
+await saveToCloud(data);
+hideLoading();
+toast('已保存「'+data.name+'」的调研数据','success');
+S.view='results';
+S.tab='teacher';
+showView('results');
+document.querySelectorAll('.res-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='teacher'));
+renderAllTabs();
+}
+
+// ===== RESULTS =====
+function showResults(){
+if(S.students.length===0){
+toast('暂无调研数据，请先填写','error');
+return;
+}
+S.view='results';
+showView('results');
+renderAllTabs();
+}
+function switchTab(tab){
+S.tab=tab;
+document.querySelectorAll('.res-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+document.getElementById('tab-'+tab).classList.add('active');
+}
+function renderAllTabs(){
+document.getElementById('res-subtitle').innerHTML=`共 ${S.students.length} 名学生参与调研 <span class="cloud-badge ${isCloud?'online':'offline'}"><span class="cloud-dot ${isCloud?'on':'off'}"></span>${isCloud?'云端已连接':'本地模式'}</span>`;
+renderTeacherView();
+renderParentView();
+renderStudentView();
+}
+
+// ===== STATS =====
+function calcStudentStats(stu){
+const subjStats={};
+let totalScore=0,totalCount=0;
+SUBJECTS.forEach(sub=>{
+const resps=stu.responses[sub.id]||{};
+let score=0,count=0;
+const counts={mastered:0,basic:0,partial:0,unknown:0,none:0};
+sub.items.forEach(it=>{
+const v=resps[it.id];
+if(v){score+=MASTERY[v].score;count++;counts[v]++;}
+else{counts.none++;}
+});
+const total=sub.items.length;
+const pct=count>0?Math.round(score/count/4*100):0;
+subjStats[sub.id]={score,count,total,pct,counts,items:sub.items.map(it=>({id:it.id,title:it.t,module:it.m,value:resps[it.id]||null}))};
+if(count>0){totalScore+=score;totalCount+=count;}
+});
+return{subjStats,overallPct:totalCount>0?Math.round(totalScore/totalCount/4*100):0,overallScore:totalScore,overallCount:totalCount};
+}
+
+function calcClassStats(){
+const n=S.students.length;
+if(n===0)return null;
+const subjStats={};
+SUBJECTS.forEach(sub=>{
+let totalScore=0,totalCount=0;
+const kpStats={};
+sub.items.forEach(it=>{
+let score=0,count=0;
+const dist={mastered:0,basic:0,partial:0,unknown:0,none:0};
+S.students.forEach(stu=>{
+const v=stu.responses[sub.id]&&stu.responses[sub.id][it.id];
+if(v){score+=MASTERY[v].score;count++;dist[v]++;}
+else{dist.none++;}
+});
+kpStats[it.id]={title:it.t,module:it.m,score,count,avgPct:count>0?Math.round(score/count/4*100):0,dist};
+totalScore+=score;totalCount+=count;
+});
+subjStats[sub.id]={kpStats,totalScore,totalCount,avgPct:totalCount>0?Math.round(totalScore/totalCount/4*100):0};
+});
+return{n,subjStats};
+}
+
+// ===== TEACHER VIEW =====
+function renderTeacherView(){
+const el=document.getElementById('tab-teacher');
+const cs=calcClassStats();
+if(!cs){el.innerHTML='<p style="text-align:center;padding:40px;color:var(--tm)">暂无数据</p>';return;}
+const n=cs.n;
+
+// Find weakest/strongest subject
+let weakestSub=null,strongestSub=null;
+SUBJECTS.forEach(sub=>{
+const ss=cs.subjStats[sub.id];
+if(!weakestSub||ss.avgPct<weakestSub.avgPct)weakestSub={...sub,...ss};
+if(!strongestSub||ss.avgPct>strongestSub.avgPct)strongestSub={...sub,...ss};
+});
+
+// Per-subject weakest knowledge points
+let perSubjectWeakHTML='';
+SUBJECTS.forEach(sub=>{
+const ss=cs.subjStats[sub.id];
+let subKP=[];
+Object.entries(ss.kpStats).forEach(([id,kp])=>{
+subKP.push({subId:sub.id,subName:sub.name,subIcon:sub.icon,id,...kp});
+});
+const weakSub=subKP.filter(k=>k.count>0).sort((a,b)=>a.avgPct-b.avgPct);
+if(weakSub.length===0)return;
+perSubjectWeakHTML+=`
+<div class="chart-card">
+<h3>⚠️ ${sub.icon} 班级${sub.name}知识点掌握情况（按掌握率从低到高）</h3>
+<div class="tbl-wrap">
+<table class="tbl">
+<thead><tr><th>排名</th><th>编号</th><th>知识点</th><th>所属模块</th><th>完全</th><th>基本</th><th>部分</th><th>不会</th><th>掌握率</th></tr></thead>
+<tbody>
+${weakSub.map((w,i)=>`<tr>
+<td>${i+1}</td>
+<td>${w.id}</td>
+<td style="text-align:left">${esc(w.title)}</td>
+<td style="text-align:left;font-size:12px;color:var(--tm)">${esc(w.module||'')}</td>
+<td>${w.dist.mastered}</td>
+<td>${w.dist.basic}</td>
+<td>${w.dist.partial}</td>
+<td style="color:var(--m4);font-weight:600">${w.dist.unknown}</td>
+<td style="font-weight:700;color:${w.avgPct<40?'var(--m4)':w.avgPct<60?'var(--m3)':'var(--m2)'}">${w.avgPct}%</td>
+</tr>`).join('')}
+</tbody>
+</table>
+</div>
+</div>`;
+});
+
+// Student rankings
+const stuRanks=S.students.map(stu=>{
+const st=calcStudentStats(stu);
+return{name:stu.name,...st,answeredCount:st.overallCount};
+}).sort((a,b)=>b.overallPct-a.overallPct);
+
+// Subject distribution
+let subjDistHTML='';
+SUBJECTS.forEach(sub=>{
+const ss=cs.subjStats[sub.id];
+let total=0;
+const counts={mastered:0,basic:0,partial:0,unknown:0};
+Object.values(ss.kpStats).forEach(kp=>{Object.keys(counts).forEach(k=>{counts[k]+=kp.dist[k];total+=kp.dist[k];});});
+if(total===0)total=1;
+subjDistHTML+=`
+<div class="bar-row">
+<div class="bar-label">${sub.name}</div>
+<div class="bar-track">
+<div class="bar-seg" data-v="mastered" style="width:${counts.mastered/total*100}%"></div>
+<div class="bar-seg" data-v="basic" style="width:${counts.basic/total*100}%"></div>
+<div class="bar-seg" data-v="partial" style="width:${counts.partial/total*100}%"></div>
+<div class="bar-seg" data-v="unknown" style="width:${counts.unknown/total*100}%"></div>
+</div>
+<div class="bar-val">${ss.avgPct}%</div>
+</div>`;
+});
+
+// Student table
+let stuTableHTML=stuRanks.map((s,i)=>{
+const rank=i+1;
+const rcls=rank<=3?`rank-${rank}`:'rank-o';
+return `<tr>
+<td><span class="rank-badge ${rcls}">${rank}</span></td>
+<td style="text-align:left;font-weight:600">${esc(s.name)}</td>
+<td>${s.overallPct}%</td>
+<td><div class="pct-bar"><div class="pct-fill" style="width:${s.overallPct}%"></div></div></td>
+<td>${s.answeredCount}/61</td>
+<td><button class="btn btn-outline btn-sm" onclick="viewStudentDetail(${i})">详情</button></td>
+</tr>`;
+}).join('');
+
+// Need-attention students (below 50%)
+const needAttention=stuRanks.filter(s=>s.overallPct<50).map(s=>s.name).join('、')||'无';
+
+el.innerHTML=`
+<div class="stat-grid">
+<div class="stat-card"><div class="val">${n}</div><div class="lbl">参与人数</div></div>
+<div class="stat-card"><div class="val">${Math.round(stuRanks.reduce((a,s)=>a+s.overallPct,0)/n)}%</div><div class="lbl">班级平均掌握</div></div>
+<div class="stat-card"><div class="val orange">${weakestSub?weakestSub.name:'—'}</div><div class="lbl">最薄弱科目</div></div>
+<div class="stat-card"><div class="val green">${strongestSub?strongestSub.name:'—'}</div><div class="lbl">最强科目</div></div>
+</div>
+
+<div class="db-banner">
+<h4>🤖 一键提交豆包AI深度分析</h4>
+<p>将班级全部调研数据提交给豆包，获取教学建议、薄弱点分析和学生关注建议</p>
+<button class="db-btn" onclick="submitToDoubao('teacher')">📋 提交豆包分析（老师视角）</button>
+</div>
+
+<div class="chart-card">
+<h3>📊 各科掌握情况分布</h3>
+${subjDistHTML}
+<div class="legend">
+<span><i style="background:var(--m1)"></i>完全掌握</span>
+<span><i style="background:var(--m2)"></i>基本掌握</span>
+<span><i style="background:var(--m3)"></i>部分掌握</span>
+<span><i style="background:var(--m4)"></i>不会</span>
+</div>
+</div>
+
+<div class="chart-card" style="background:linear-gradient(135deg,#e3f2fd,#f5f9ff);border:1px solid #90caf9;margin-bottom:12px">
+<div style="font-size:13px;color:#1565c0;line-height:1.8;padding:4px 0">
+<b>📋 说明：</b>以下各科知识点按<b>掌握率从低到高</b>排序。掌握率越低，说明该知识点越薄弱，<b>越需要老师重点讲解</b>。
+建议老师优先关注标红的知识点（掌握率低于40%），安排专项复习和讲解。
+</div>
+</div>
+
+${perSubjectWeakHTML}
+
+<div class="chart-card">
+<h3>👥 学生掌握情况排名</h3>
+<div class="tbl-wrap">
+<table class="tbl">
+<thead><tr><th>排名</th><th>姓名</th><th>掌握率</th><th>分布</th><th>已评</th><th>操作</th></tr></thead>
+<tbody>${stuTableHTML}</tbody>
+</table>
+</div>
+</div>
+
+<div class="chart-card">
+<h3>📌 教学重点关注</h3>
+<div style="font-size:13px;color:var(--ts);line-height:1.8">
+<p><b style="color:var(--m4)">⚠️ 需重点关注的学生：</b>${needAttention}</p>
+<p><b style="color:var(--m3)">📝 最薄弱科目：</b>${weakestSub?weakestSub.name+'（'+weakestSub.avgPct+'%）':''}</p>
+<p><b style="color:var(--m2)">💡 教学建议：</b>建议针对上述薄弱知识点进行专项复习，优先解决掌握率低于40%的模块。对于需要重点关注的学生，建议课后加强辅导。</p>
+</div>
+</div>
+
+<div class="chart-card">
+<h3>📋 已参与调研学生列表</h3>
+${S.students.map((s,i)=>{
+const st=calcStudentStats(s);
+return `<div class="stu-item">
+<span class="nm">${esc(s.name)}</span>
+<span style="font-size:11px;color:var(--tm)">${st.overallCount}/61已评</span>
+<span class="pct">${st.overallPct}%</span>
+<button class="btn btn-outline btn-sm" onclick="viewStudentDetail(${i})">详情</button>
+<button class="stu-del" onclick="deleteStudent(${i})" title="删除该学生数据">删除</button>
+</div>`;
+}).join('')}
+</div>`;
+}
+
+// ===== PARENT VIEW =====
+function renderParentView(){
+const el=document.getElementById('tab-parent');
+if(S.students.length===0){el.innerHTML='<p style="text-align:center;padding:40px;color:var(--tm)">暂无数据</p>';return;}
+
+const sel=S.students[S.selStu]||S.students[0];
+const st=calcStudentStats(sel);
+const cs=calcClassStats();
+
+// Subject comparison
+let compHTML='';
+SUBJECTS.forEach(sub=>{
+const ss=st.subjStats[sub.id];
+const ca=cs.subjStats[sub.id].avgPct;
+const diff=ss.pct-ca;
+const diffColor=diff>=0?'var(--m1)':'var(--m4)';
+const diffText=diff>=0?'+'+diff:''+diff;
+compHTML+=`
+<div class="bar-row">
+<div class="bar-label">${sub.name}</div>
+<div class="bar-track">
+<div class="bar-seg" data-v="mastered" style="width:${ss.counts.mastered/sub.items.length*100}%"></div>
+<div class="bar-seg" data-v="basic" style="width:${ss.counts.basic/sub.items.length*100}%"></div>
+<div class="bar-seg" data-v="partial" style="width:${ss.counts.partial/sub.items.length*100}%"></div>
+<div class="bar-seg" data-v="unknown" style="width:${ss.counts.unknown/sub.items.length*100}%"></div>
+</div>
+<div class="bar-val">${ss.pct}%</div>
+</div>
+<div class="bar-row" style="font-size:11px;color:var(--tm);margin-top:-4px;margin-bottom:8px">
+<div class="bar-label"></div>
+<div style="flex:1">班级平均 ${ca}% <span style="color:${diffColor};font-weight:600">（${diffText}）</span></div>
+</div>`;
+});
+
+// Categorize items by subject
+const subjDetail=SUBJECTS.map(sub=>{
+const items=st.subjStats[sub.id].items;
+return{sub,
+unknown:items.filter(it=>it.value==='unknown'),
+partial:items.filter(it=>it.value==='partial'),
+basic:items.filter(it=>it.value==='basic'),
+mastered:items.filter(it=>it.value==='mastered')};
+});
+
+const totalCounts=subjDetail.reduce((a,s)=>{
+a.unknown+=s.unknown.length;
+a.partial+=s.partial.length;
+a.basic+=s.basic.length;
+a.mastered+=s.mastered.length;
+return a;
+},{unknown:0,partial:0,basic:0,mastered:0});
+
+const renderCatItems=(items,cls,badge,emptyMsg)=>{
+if(!items.length)return `<p style="color:var(--m1);font-size:12px;padding:6px 10px">${emptyMsg}</p>`;
+return items.map(it=>`
+<div class="wp-item ${cls}">
+<span class="wp-badge ${cls}">${badge}</span>
+<div class="wp-info"><div class="wp-title">${it.id}</div><div class="wp-sub">${esc(it.title)}</div></div>
+</div>`).join('');
+};
+
+// Find weakest/strongest subject for this student
+let weakestSub=null,strongestSub=null;
+SUBJECTS.forEach(sub=>{
+const sp=st.subjStats[sub.id].pct;
+if(!weakestSub||sp<weakestSub.pct)weakestSub={name:sub.name,icon:sub.icon,pct:sp};
+if(!strongestSub||sp>strongestSub.pct)strongestSub={name:sub.name,icon:sub.icon,pct:sp};
+});
+
+const subjDetailHTML=subjDetail.map(sd=>{
+const{sub,unknown,partial,basic,mastered}=sd;
+return `
+<div class="chart-card">
+<div class="subj-detail-hdr">
+<span class="subj-detail-icon">${sub.icon}</span>
+<span class="subj-detail-name">${sub.name}</span>
+<span class="subj-detail-pct">${st.subjStats[sub.id].pct}%</span>
+</div>
+<div class="kp-cat-group">
+<div class="kp-cat-hdr c-unknown">🔴 不会的知识点（${unknown.length}）</div>
+${renderCatItems(unknown,'unknown','不会','✅ 没有不会的知识点，表现优秀')}
+</div>
+<div class="kp-cat-group">
+<div class="kp-cat-hdr c-partial">🟠 部分掌握的知识点（${partial.length}）</div>
+${renderCatItems(partial,'partial','部分','✅ 没有部分掌握的知识点')}
+</div>
+<div class="kp-cat-group">
+<div class="kp-cat-hdr c-basic">🔵 基本掌握的知识点（${basic.length}）</div>
+${renderCatItems(basic,'basic','基本','— 暂无基本掌握的知识点')}
+</div>
+<div class="kp-cat-group">
+<div class="kp-cat-hdr c-mastered">🟢 完全掌握的知识点（${mastered.length}）</div>
+${renderCatItems(mastered,'mastered','完全','— 暂无完全掌握的知识点')}
+</div>
+</div>`;
+}).join('');
+
+el.innerHTML=`
+<div class="sel-wrap">
+<label>选择学生：</label>
+<select onchange="S.selStu=parseInt(this.value);renderParentView();">
+${S.students.map((s,i)=>`<option value="${i}" ${i===S.selStu?'selected':''}>${esc(s.name)}</option>`).join('')}
+</select>
+</div>
+
+<div class="stat-grid stat-grid-6">
+<div class="stat-card"><div class="val">${st.overallPct}%</div><div class="lbl">总掌握率</div></div>
+<div class="stat-card"><div class="val">${st.overallCount}</div><div class="lbl">已评知识点</div></div>
+<div class="stat-card"><div class="val red">${totalCounts.unknown}</div><div class="lbl">不会</div></div>
+<div class="stat-card"><div class="val orange">${totalCounts.partial}</div><div class="lbl">部分掌握</div></div>
+<div class="stat-card"><div class="val" style="color:var(--m2)">${totalCounts.basic}</div><div class="lbl">基本掌握</div></div>
+<div class="stat-card"><div class="val" style="color:var(--m1)">${totalCounts.mastered}</div><div class="lbl">完全掌握</div></div>
+</div>
+
+<div class="stat-grid" style="grid-template-columns:repeat(2,1fr);margin-top:8px">
+<div class="stat-card" style="border-color:var(--m4);background:var(--m4b)">
+<div class="val orange" style="font-size:18px">${weakestSub?weakestSub.icon+' '+weakestSub.name:'—'}</div>
+<div class="lbl">最薄弱科目${weakestSub?'（'+weakestSub.pct+'%）':''}</div>
+</div>
+<div class="stat-card" style="border-color:var(--m1);background:var(--m1b)">
+<div class="val green" style="font-size:18px">${strongestSub?strongestSub.icon+' '+strongestSub.name:'—'}</div>
+<div class="lbl">最强科目${strongestSub?'（'+strongestSub.pct+'%）':''}</div>
+</div>
+</div>
+
+<div class="db-banner">
+<h4>🤖 一键提交豆包AI深度分析</h4>
+<p>将该学生的调研数据提交给豆包，获取个性化辅导建议和学习规划</p>
+<button class="db-btn" onclick="submitToDoubao('parent')">📋 提交豆包分析（家长视角）</button>
+</div>
+
+<div class="chart-card">
+<h3>📊 各科掌握情况 vs 班级平均</h3>
+${compHTML}
+<div class="legend">
+<span><i style="background:var(--m1)"></i>完全掌握</span>
+<span><i style="background:var(--m2)"></i>基本掌握</span>
+<span><i style="background:var(--m3)"></i>部分掌握</span>
+<span><i style="background:var(--m4)"></i>不会</span>
+</div>
+</div>
+
+<div class="chart-card">
+<h3>📚 分科目知识点掌握详情</h3>
+<p style="font-size:12px;color:var(--tm);margin-bottom:8px">按掌握程度分类，清晰了解孩子每科的薄弱和优势</p>
+</div>
+
+${subjDetailHTML}
+
+<div class="chart-card">
+<h3>💡 家长辅导建议</h3>
+<div style="font-size:13px;color:var(--ts);line-height:1.8">
+<p>1. <b>优先突破「不会」的知识点</b>：共${totalCounts.unknown}个，建议配合老师或课外辅导集中突破。</p>
+<p>2. <b>巩固「部分掌握」的内容</b>：共${totalCounts.partial}个，通过专项练习巩固。</p>
+<p>3. <b>保持「基本掌握」的势头</b>：共${totalCounts.basic}个，适度拔高训练可提升至完全掌握。</p>
+<p>4. <b>持续跟踪进度</b>：当前总掌握率${st.overallPct}%，建议定期重新评估，观察掌握率变化趋势。</p>
+</div>
+</div>`;
+}
+
+// ===== STUDENT VIEW =====
+function renderStudentView(){
+const el=document.getElementById('tab-student');
+if(S.students.length===0){el.innerHTML='<p style="text-align:center;padding:40px;color:var(--tm)">暂无数据</p>';return;}
+
+const sel=S.students[S.selStu]||S.students[0];
+const st=calcStudentStats(sel);
+
+// Radar chart
+let radarSVG=renderRadar(st.subjStats);
+
+// Categorize items by subject (same as parent view)
+const subjDetail=SUBJECTS.map(sub=>{
+const items=st.subjStats[sub.id].items;
+return{sub,
+unknown:items.filter(it=>it.value==='unknown'),
+partial:items.filter(it=>it.value==='partial'),
+basic:items.filter(it=>it.value==='basic'),
+mastered:items.filter(it=>it.value==='mastered')};
+});
+
+const totalCounts=subjDetail.reduce((a,s)=>{
+a.unknown+=s.unknown.length;
+a.partial+=s.partial.length;
+a.basic+=s.basic.length;
+a.mastered+=s.mastered.length;
+return a;
+},{unknown:0,partial:0,basic:0,mastered:0});
+
+const renderCatItems=(items,cls,badge,emptyMsg)=>{
+if(!items.length)return `<p style="color:var(--m1);font-size:12px;padding:6px 10px">${emptyMsg}</p>`;
+return items.map(it=>`
+<div class="wp-item ${cls}">
+<span class="wp-badge ${cls}">${badge}</span>
+<div class="wp-info"><div class="wp-title">${it.id}</div><div class="wp-sub">${esc(it.title)}</div></div>
+</div>`).join('');
+};
+
+const subjDetailHTML=subjDetail.map(sd=>{
+const{sub,unknown,partial,basic,mastered}=sd;
+return `
+<div class="chart-card">
+<div class="subj-detail-hdr">
+<span class="subj-detail-icon">${sub.icon}</span>
+<span class="subj-detail-name">${sub.name}</span>
+<span class="subj-detail-pct">${st.subjStats[sub.id].pct}%</span>
+</div>
+<div class="kp-cat-group">
+<div class="kp-cat-hdr c-unknown">🔴 不会的知识点（${unknown.length}）</div>
+${renderCatItems(unknown,'unknown','不会','✅ 没有不会的知识点，表现优秀')}
+</div>
+<div class="kp-cat-group">
+<div class="kp-cat-hdr c-partial">🟠 部分掌握的知识点（${partial.length}）</div>
+${renderCatItems(partial,'partial','部分','✅ 没有部分掌握的知识点')}
+</div>
+<div class="kp-cat-group">
+<div class="kp-cat-hdr c-basic">🔵 基本掌握的知识点（${basic.length}）</div>
+${renderCatItems(basic,'basic','基本','— 暂无基本掌握的知识点')}
+</div>
+<div class="kp-cat-group">
+<div class="kp-cat-hdr c-mastered">🟢 完全掌握的知识点（${mastered.length}）</div>
+${renderCatItems(mastered,'mastered','完全','— 暂无完全掌握的知识点')}
+</div>
+</div>`;
+}).join('');
+
+// Find weakest/strongest subject
+let weakestSub=null,strongestSub=null;
+SUBJECTS.forEach(sub=>{
+const sp=st.subjStats[sub.id].pct;
+if(!weakestSub||sp<weakestSub.pct)weakestSub={name:sub.name,icon:sub.icon,pct:sp};
+if(!strongestSub||sp>strongestSub.pct)strongestSub={name:sub.name,icon:sub.icon,pct:sp};
+});
+
+el.innerHTML=`
+<div class="sel-wrap">
+<label>选择学生：</label>
+<select onchange="S.selStu=parseInt(this.value);renderStudentView();">
+${S.students.map((s,i)=>`<option value="${i}" ${i===S.selStu?'selected':''}>${esc(s.name)}</option>`).join('')}
+</select>
+</div>
+
+<div class="stat-grid stat-grid-6">
+<div class="stat-card"><div class="val">${st.overallPct}%</div><div class="lbl">总掌握率</div></div>
+<div class="stat-card"><div class="val">${st.overallCount}</div><div class="lbl">已评知识点</div></div>
+<div class="stat-card"><div class="val red">${totalCounts.unknown}</div><div class="lbl">不会</div></div>
+<div class="stat-card"><div class="val orange">${totalCounts.partial}</div><div class="lbl">部分掌握</div></div>
+<div class="stat-card"><div class="val" style="color:var(--m2)">${totalCounts.basic}</div><div class="lbl">基本掌握</div></div>
+<div class="stat-card"><div class="val" style="color:var(--m1)">${totalCounts.mastered}</div><div class="lbl">完全掌握</div></div>
+</div>
+
+<div class="stat-grid" style="grid-template-columns:repeat(2,1fr);margin-top:8px">
+<div class="stat-card" style="border-color:var(--m4);background:var(--m4b)">
+<div class="val orange" style="font-size:18px">${weakestSub?weakestSub.icon+' '+weakestSub.name:'—'}</div>
+<div class="lbl">最薄弱科目${weakestSub?'（'+weakestSub.pct+'%）':''}</div>
+</div>
+<div class="stat-card" style="border-color:var(--m1);background:var(--m1b)">
+<div class="val green" style="font-size:18px">${strongestSub?strongestSub.icon+' '+strongestSub.name:'—'}</div>
+<div class="lbl">最强科目${strongestSub?'（'+strongestSub.pct+'%）':''}</div>
+</div>
+</div>
+
+<div class="db-banner">
+<h4>🤖 一键提交豆包AI深度分析</h4>
+<p>将你的调研数据提交给豆包，获取个性化学习计划和建议</p>
+<button class="db-btn" onclick="submitToDoubao('student')">📋 提交豆包分析（学生视角）</button>
+</div>
+
+<div class="chart-card">
+<h3>🎯 六科掌握雷达图</h3>
+<div class="radar-wrap">${radarSVG}</div>
+</div>
+
+<div class="chart-card">
+<h3>📚 分科目知识点掌握详情</h3>
+<p style="font-size:12px;color:var(--tm);margin:-4px 0 8px">每科按掌握程度分类列出，方便针对性复习</p>
+</div>
+
+${subjDetailHTML}
+
+<div class="chart-card">
+<h3>📋 学习计划建议</h3>
+<div style="font-size:13px;color:var(--ts);line-height:1.8">
+<p><b>第一阶段（1-2周）：</b>集中突破${totalCounts.unknown}个「不会」的知识点，建议看网课/请教老师，理解核心概念。</p>
+<p><b>第二阶段（3-4周）：</b>巩固${totalCounts.partial}个「部分掌握」的知识点，通过专项练习加深理解。</p>
+<p><b>第三阶段（持续）：</b>保持${totalCounts.mastered}个「完全掌握」的知识点，定期复习防止遗忘。</p>
+<p><b>💪 加油！</b>每解决一个薄弱知识点，就离目标更近一步！</p>
+</div>
+</div>`;
+}
+
+// ===== RADAR CHART =====
+function renderRadar(subjStats){
+const cx=140,cy=140,r=100;
+const n=6;
+const labels=SUBJECTS.map(s=>s.name);
+const scores=SUBJECTS.map(s=>subjStats[s.id].pct/100);
+const angles=labels.map((_,i)=>-Math.PI/2+i*2*Math.PI/n);
+
+let grid='';
+for(let lv=1;lv<=4;lv++){
+const pts=angles.map(a=>`${cx+Math.cos(a)*r*lv/4},${cy+Math.sin(a)*r*lv/4}`).join(' ');
+grid+=`<polygon points="${pts}" fill="none" stroke="#BBDEFB" stroke-width="1" opacity="${0.3+lv*0.15}"/>`;
+}
+let axes=angles.map(a=>`<line x1="${cx}" y1="${cy}" x2="${cx+Math.cos(a)*r}" y2="${cy+Math.sin(a)*r}" stroke="#BBDEFB" stroke-width="1"/>`).join('');
+let labelsSVG=labels.map((lb,i)=>{
+const x=cx+Math.cos(angles[i])*(r+18);
+const y=cy+Math.sin(angles[i])*(r+18);
+return `<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" fill="#1565C0" font-size="13" font-weight="600">${lb}</text>`;
+}).join('');
+let pts=scores.map((sc,i)=>`${cx+Math.cos(angles[i])*r*sc},${cy+Math.sin(angles[i])*r*sc}`).join(' ');
+let dots=scores.map((sc,i)=>{
+const x=cx+Math.cos(angles[i])*r*sc;
+const y=cy+Math.sin(angles[i])*r*sc;
+return `<circle cx="${x}" cy="${y}" r="3" fill="#1565C0"/>`;
+}).join('');
+return `<svg class="radar-svg" viewBox="0 0 280 280">${grid}${axes}<polygon points="${pts}" fill="rgba(21,101,192,0.15)" stroke="#1565C0" stroke-width="2" stroke-linejoin="round"/>${dots}${labelsSVG}</svg>`;
+}
+
+// ===== STUDENT DETAIL =====
+function viewStudentDetail(idx){
+S.selStu=idx;
+S.tab='parent';
+switchTab('parent');
+renderParentView();
+}
+
+// ===== DELETE =====
+function deleteStudent(idx){
+console.log('[DELETE] called with idx:',idx);
+const stu=S.students[idx];
+if(!stu){console.log('[DELETE] No student at index',idx);return;}
+const st=calcStudentStats(stu);
+const msg=`确定要删除「${stu.name}」的调研数据吗？\n\n该学生已评估 ${st.overallCount}/61 个知识点，总掌握率 ${st.overallPct}%。\n删除后不可恢复，云端数据将同步删除。`;
+if(!confirm(msg)){console.log('[DELETE] User cancelled');return;}
+console.log('[DELETE] Proceeding, stuId:',stu.id);
+
+// 先从本地删除，确保即时反馈
+S.students.splice(idx,1);
+saveStudentsLocal();
+if(S.selStu>=S.students.length)S.selStu=Math.max(0,S.students.length-1);
+renderAllTabs();
+toast(`已删除「${stu.name}」的调研数据`,'success');
+
+// 异步删除云端数据（失败不阻塞本地操作）
+if(stu.id&&isCloud){
+deleteFromCloud(stu.id).then(ok=>{
+if(!ok){
+console.warn('[DELETE] Cloud delete failed, but local already removed');
+toast('本地已删除，云端数据将在下次同步时清理','warning');
+}
+});
+}
+}
+
+// ===== DOUBAO =====
+async function submitToDoubao(perspective){
+let prompt='';
+if(perspective==='teacher'){
+prompt=genTeacherPrompt();
+}else if(perspective==='parent'){
+prompt=genParentPrompt();
+}else{
+prompt=genStudentPrompt();
+}
+
+// Copy to clipboard
+try{
+await navigator.clipboard.writeText(prompt);
+}catch(e){
+const ta=document.createElement('textarea');
+ta.value=prompt;
+document.body.appendChild(ta);
+ta.select();
+document.execCommand('copy');
+document.body.removeChild(ta);
+}
+
+// Try opening Doubao with query param
+const url='https://www.doubao.com/chat/?q='+encodeURIComponent(prompt.slice(0,1800));
+window.open(url,'_blank');
+toast('✅ 分析数据已复制到剪贴板，正在打开豆包...如未自动填入，请粘贴','success');
+}
+
+function genTeacherPrompt(){
+const cs=calcClassStats();
+const n=cs.n;
+let txt=`作为高三班级老师，以下是全班${n}名学生各科知识点掌握情况的调研数据。请从教学角度进行深度分析：
+
+【调研概况】
+- 参与学生：${n}人
+- 覆盖科目：语文、数学、英语、物理、化学、生物（共61个知识模块）
+- 掌握量级：完全掌握(4分)、基本掌握(3分)、部分掌握(2分)、不会(1分)
+
+`;
+// Subject stats
+txt+='【各科班级平均掌握率】\n';
+SUBJECTS.forEach(sub=>{
+const ss=cs.subjStats[sub.id];
+txt+=`${sub.name}：${ss.avgPct}%\n`;
+});
+
+// All KP per subject sorted by avgPct ascending
+txt+='\n【班级各科知识点掌握情况（按掌握率从低到高排序，越低越需重点讲解）】\n';
+SUBJECTS.forEach(sub=>{
+const ss=cs.subjStats[sub.id];
+let subKP=[];
+Object.entries(ss.kpStats).forEach(([id,kp])=>{
+subKP.push({subName:sub.name,id,...kp});
+});
+const weakSub=subKP.filter(k=>k.count>0).sort((a,b)=>a.avgPct-b.avgPct);
+if(weakSub.length===0)return;
+txt+=`\n■ ${sub.name}知识点掌握情况（共${weakSub.length}个，从低到高）：\n`;
+weakSub.forEach((k,i)=>{
+txt+=`${i+1}. ${k.id}. ${k.title}（${k.module||''}）掌握率${k.avgPct}%，完全${k.dist.mastered}人/基本${k.dist.basic}人/部分${k.dist.partial}人/不会${k.dist.unknown}人\n`;
+});
+});
+
+// Student data
+txt+='\n【各学生掌握情况】\n';
+S.students.forEach(stu=>{
+const st=calcStudentStats(stu);
+let subjs='';
+SUBJECTS.forEach(sub=>{
+subjs+=`${sub.name}${st.subjStats[sub.id].pct}% `;
+});
+txt+=`${stu.name}：总掌握率${st.overallPct}%，${subjs}\n`;
+// Weak points
+const weak=[];
+SUBJECTS.forEach(sub=>{
+st.subjStats[sub.id].items.forEach(it=>{
+if(it.value==='unknown')weak.push(`${sub.name}-${it.id}`);
+});
+});
+if(weak.length)txt+=`  不会的知识点：${weak.join('、')}\n`;
+});
+
+txt+=`
+
+请分析以下内容：
+1. 全班各科整体掌握情况评估
+2. 最薄弱的3-5个知识点及教学突破策略
+3. 需要重点关注的学生及个性化辅导方向
+4. 针对性的教学计划建议（按优先级排列）
+5. 班级整体提升方案`;
+
+return txt;
+}
+
+function genParentPrompt(){
+const sel=S.students[S.selStu]||S.students[0];
+const st=calcStudentStats(sel);
+const cs=calcClassStats();
+
+let txt=`作为家长，以下是孩子「${sel.name}」的高三各科知识点掌握情况调研数据。请从家长角度进行深度分析：
+
+【学生概况】
+- 姓名：${sel.name}
+- 总掌握率：${st.overallPct}%
+- 已评估知识点：${st.overallCount}/61
+
+【各科掌握情况 vs 班级平均】
+`;
+SUBJECTS.forEach(sub=>{
+const ss=st.subjStats[sub.id];
+const ca=cs.subjStats[sub.id].avgPct;
+txt+=`${sub.name}：${ss.pct}%（班级平均${ca}%，${ss.pct>=ca?'高于':'低于'}平均${Math.abs(ss.pct-ca)}%）\n`;
+});
+
+// Per-subject categorized knowledge points
+txt+='\n【分科目知识点掌握详情】\n';
+SUBJECTS.forEach(sub=>{
+const ss=st.subjStats[sub.id];
+txt+=`\n■ ${sub.name}（掌握率${ss.pct}%）：\n`;
+const cats={
+'不会':ss.items.filter(it=>it.value==='unknown'),
+'部分掌握':ss.items.filter(it=>it.value==='partial'),
+'基本掌握':ss.items.filter(it=>it.value==='basic'),
+'完全掌握':ss.items.filter(it=>it.value==='mastered')
+};
+Object.entries(cats).forEach(([cat,items])=>{
+txt+=`  ${cat}（${items.length}个）：`;
+txt+=items.length?items.map(it=>`${it.id}.${it.title}`).join('；'):'无';
+txt+='\n';
+});
+});
+
+txt+=`
+
+请分析以下内容：
+1. 孩子的优势科目和薄弱科目
+2. 各科需要重点提升的知识点及原因分析
+3. 与班级平均水平的对比分析
+4. 针对孩子的个性化家庭辅导建议
+5. 暑假期间的学习安排建议`;
+
+return txt;
+}
+
+function genStudentPrompt(){
+const sel=S.students[S.selStu]||S.students[0];
+const st=calcStudentStats(sel);
+
+let txt=`作为高三学生，以下是我各科知识点掌握情况的调研数据。请从学生角度进行深度分析：
+
+【我的概况】
+- 姓名：${sel.name}
+- 总掌握率：${st.overallPct}%
+
+【各科掌握情况】
+`;
+SUBJECTS.forEach(sub=>{
+const ss=st.subjStats[sub.id];
+txt+=`${sub.name}：${ss.pct}%（完全${ss.counts.mastered}/基本${ss.counts.basic}/部分${ss.counts.partial}/不会${ss.counts.unknown}）\n`;
+});
+
+// Per-subject categorized knowledge points (same as parent prompt)
+txt+='\n【分科目知识点掌握详情】\n';
+SUBJECTS.forEach(sub=>{
+const ss=st.subjStats[sub.id];
+txt+=`\n■ ${sub.name}（掌握率${ss.pct}%）：\n`;
+const cats={
+'不会':ss.items.filter(it=>it.value==='unknown'),
+'部分掌握':ss.items.filter(it=>it.value==='partial'),
+'基本掌握':ss.items.filter(it=>it.value==='basic'),
+'完全掌握':ss.items.filter(it=>it.value==='mastered')
+};
+Object.entries(cats).forEach(([cat,items])=>{
+txt+=`  ${cat}（${items.length}个）：`;
+txt+=items.length?items.map(it=>`${it.id}.${it.title}`).join('；'):'无';
+txt+='\n';
+});
+});
+
+txt+=`
+
+请分析以下内容：
+1. 我的各科掌握情况总体评估
+2. 需要优先复习的5个知识点（按重要性排序）
+3. 每个薄弱知识点的学习建议和方法
+4. 制定一个4周学习计划（包括每天的大致安排）
+5. 给我一些鼓励和学习方法建议`;
+
+return txt;
+}
+
+// ===== EXPORT / IMPORT =====
+function exportData(){
+const code=btoa(unescape(encodeURIComponent(JSON.stringify(S.students))));
+const modal=document.getElementById('import-modal');
+document.getElementById('import-code').value=code;
+document.querySelector('#import-modal h3').textContent='📤 导出数据';
+document.querySelector('#import-modal p').textContent='复制以下分享码，发送给汇总人进行导入。';
+document.querySelector('#import-modal .btn-primary').textContent='复制';
+document.querySelector('#import-modal .btn-primary').onclick=function(){
+const ta=document.getElementById('import-code');
+ta.select();
+document.execCommand('copy');
+toast('已复制到剪贴板','success');
+};
+modal.classList.add('show');
+}
+
+function showImport(){
+const modal=document.getElementById('import-modal');
+document.getElementById('import-code').value='';
+document.querySelector('#import-modal h3').textContent='📥 导入数据';
+document.querySelector('#import-modal p').textContent='将其他设备导出的分享码粘贴到下方，点击「导入」即可合并数据。';
+document.querySelector('#import-modal .btn-primary').textContent='导入';
+document.querySelector('#import-modal .btn-primary').onclick=doImport;
+modal.classList.add('show');
+}
+
+function closeImport(){
+document.getElementById('import-modal').classList.remove('show');
+}
+
+function doImport(){
+const code=document.getElementById('import-code').value.trim();
+if(!code){toast('请粘贴分享码','error');return;}
+try{
+const data=JSON.parse(decodeURIComponent(escape(atob(code))));
+if(!Array.isArray(data))throw new Error();
+let added=0,updated=0;
+data.forEach(d=>{
+const idx=S.students.findIndex(s=>s.name===d.name);
+if(idx>=0){S.students[idx]=d;updated++;}
+else{S.students.push(d);added++;}
+});
+saveStudentsLocal();
+// Also sync to cloud
+if(isCloud){
+data.forEach(d=>{saveToCloud(d);});
+}
+closeImport();
+renderAllTabs();
+renderHomeStats();
+toast(`导入成功：新增${added}人，更新${updated}人`,'success');
+}catch(e){
+toast('分享码格式错误，请检查','error');
+}
+}
+
+// ===== UTILS =====
+function toast(msg,type){
+const t=document.getElementById('toast');
+t.textContent=msg;
+t.className='toast show'+(type?' '+type:'');
+setTimeout(()=>t.classList.remove('show'),3000);
+}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ===== INIT =====
+init();
+</script>
+</body>
+</html>
