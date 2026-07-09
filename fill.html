@@ -238,6 +238,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 </div>
 <div class="res-actions">
 <button class="btn btn-outline btn-sm" onclick="retakeSurvey()">✍️ 重新填写</button>
+<button class="btn btn-outline btn-sm" onclick="downloadMyReport()">📄 导出报告</button>
 </div>
 <div id="tab-parent" class="tab-content active"></div>
 <div id="tab-student" class="tab-content"></div>
@@ -548,6 +549,9 @@ c.innerHTML=`
 <div class="sub">学生：${esc(S.student.name)}</div>
 <div class="desc">请确认以下评估结果，点击「提交调研」保存数据</div>
 </div>
+<div style="text-align:center;margin:8px 0">
+<button class="btn btn-outline btn-sm" onclick="exportCurrentSurvey()">📄 导出本次填报报告</button>
+</div>
 <div class="summary-wrap">${summaryHTML}</div>`;
 }
 }
@@ -567,6 +571,20 @@ if(next){next.scrollIntoView({behavior:'smooth',block:'center'});}
 function nextStep(){
 if(S.step===0){
 if(!S.student.name.trim()){toast('请输入学生姓名','error');return;}
+// Check for duplicate name
+const existIdx=S.allStudents.findIndex(s=>s.name===S.student.name.trim());
+if(existIdx>=0){
+const isMyOwn=S.myData&&S.myData.name===S.student.name.trim();
+if(!isMyOwn){
+if(!confirm('「'+S.student.name.trim()+'」已经填报过一次了。\n\n如果再次填报，将使用最新一次的数据覆盖旧数据，老数据将被替换。\n\n是否继续？')){
+return;
+}
+}
+// Pre-fill with existing responses for convenience
+if(S.allStudents[existIdx].responses){
+S.student.responses=JSON.parse(JSON.stringify(S.allStudents[existIdx].responses||{}));
+}
+}
 S.step++;
 renderStep();
 }
@@ -620,7 +638,7 @@ localStorage.setItem('my_survey_name',myName);
 // Reload all data for class averages
 await loadMyData();
 hideLoading();
-toast('已保存您的调研数据','success');
+toast('已保存您的调研数据，可点击「导出报告」保存到本地','success');
 showResultsView();
 }
 
@@ -1079,6 +1097,169 @@ document.body.removeChild(ta);
 const url='https://www.doubao.com/chat/?q='+encodeURIComponent(txt.slice(0,1800));
 window.open(url,'_blank');
 toast('✅ 分析数据已复制到剪贴板，正在打开豆包...如未自动填入，请粘贴','success');
+}
+
+// ===== REPORT GENERATION =====
+function buildReportHTML(stu,classAvgData){
+if(!stu)return'';
+const st=calcStudentStats(stu);
+const ca=classAvgData||{n:0,avgs:{}};
+const reportDate=new Date().toLocaleString('zh-CN');
+let compHTML='';
+SUBJECTS.forEach(sub=>{
+const ss=st.subjStats[sub.id];
+const classAvg=ca.avgs?ca.avgs[sub.id]:0;
+const diff=ss.pct-classAvg;
+const diffColor=diff>=0?'#43A047':'#E53935';
+const diffText=diff>=0?'+'+diff:''+diff;
+compHTML+=`<div class="bar-row"><div class="bar-label">${sub.name}</div><div class="bar-track"><div class="bar-seg" data-v="mastered" style="width:${ss.counts.mastered/sub.items.length*100}%"></div><div class="bar-seg" data-v="basic" style="width:${ss.counts.basic/sub.items.length*100}%"></div><div class="bar-seg" data-v="partial" style="width:${ss.counts.partial/sub.items.length*100}%"></div><div class="bar-seg" data-v="unknown" style="width:${ss.counts.unknown/sub.items.length*100}%"></div></div><div class="bar-val">${ss.pct}%</div></div><div class="bar-row" style="font-size:11px;color:#9FA8DA;margin-top:-4px;margin-bottom:8px"><div class="bar-label"></div><div style="flex:1">班级平均 ${classAvg}% <span style="color:${diffColor};font-weight:600">(${diffText})</span></div></div>`;
+});
+const subjDetail=SUBJECTS.map(sub=>{
+const items=st.subjStats[sub.id].items;
+return{sub,unknown:items.filter(it=>it.value==='unknown'),partial:items.filter(it=>it.value==='partial'),basic:items.filter(it=>it.value==='basic'),mastered:items.filter(it=>it.value==='mastered')};
+});
+const totalCounts=subjDetail.reduce((a,s)=>{a.unknown+=s.unknown.length;a.partial+=s.partial.length;a.basic+=s.basic.length;a.mastered+=s.mastered.length;return a;},{unknown:0,partial:0,basic:0,mastered:0});
+const renderCatItems=(items,cls,badge,emptyMsg)=>{
+if(!items.length)return `<p style="color:#43A047;font-size:12px;padding:6px 10px">${emptyMsg}</p>`;
+return items.map(it=>`<div class="wp-item ${cls}"><span class="wp-badge ${cls}">${badge}</span><div class="wp-info"><div class="wp-title">${it.id}</div><div class="wp-sub">${esc(it.title)}</div></div></div>`).join('');
+};
+const subjDetailHTML=subjDetail.map(sd=>{
+const{sub,unknown,partial,basic,mastered}=sd;
+return `<div class="chart-card"><div class="subj-detail-hdr"><span class="subj-detail-icon">${sub.icon}</span><span class="subj-detail-name">${sub.name}</span><span class="subj-detail-pct">${st.subjStats[sub.id].pct}%</span></div><div class="kp-cat-group"><div class="kp-cat-hdr c-unknown">🔴 不会的知识点（${unknown.length}）</div>${renderCatItems(unknown,'unknown','不会','✅ 没有不会的知识点，表现优秀')}</div><div class="kp-cat-group"><div class="kp-cat-hdr c-partial">🟠 部分掌握的知识点（${partial.length}）</div>${renderCatItems(partial,'partial','部分','✅ 没有部分掌握的知识点')}</div><div class="kp-cat-group"><div class="kp-cat-hdr c-basic">🔵 基本掌握的知识点（${basic.length}）</div>${renderCatItems(basic,'basic','基本','— 暂无基本掌握的知识点')}</div><div class="kp-cat-group"><div class="kp-cat-hdr c-mastered">🟢 完全掌握的知识点（${mastered.length}）</div>${renderCatItems(mastered,'mastered','完全','— 暂无完全掌握的知识点')}</div></div>`;
+}).join('');
+let weakestSub=null,strongestSub=null;
+SUBJECTS.forEach(sub=>{
+const sp=st.subjStats[sub.id].pct;
+if(!weakestSub||sp<weakestSub.pct)weakestSub={name:sub.name,icon:sub.icon,pct:sp};
+if(!strongestSub||sp>strongestSub.pct)strongestSub={name:sub.name,icon:sub.icon,pct:sp};
+});
+const radarSVG=renderRadar(st.subjStats);
+let dp=`作为家长，以下是孩子「${stu.name}」的高三各科知识点掌握情况调研数据。请从家长角度进行深度分析：\n\n【学生概况】\n- 姓名：${stu.name}\n- 总掌握率：${st.overallPct}%\n- 已评估知识点：${st.overallCount}/61\n\n【各科掌握情况 vs 班级平均】\n`;
+SUBJECTS.forEach(sub=>{
+const ss=st.subjStats[sub.id];
+const classAvg=ca.avgs?ca.avgs[sub.id]:0;
+dp+=`${sub.name}：${ss.pct}%（班级平均${classAvg}%，${ss.pct>=classAvg?'高于':'低于'}平均${Math.abs(ss.pct-classAvg)}%）\n`;
+});
+dp+='\n【分科目知识点掌握详情】\n';
+SUBJECTS.forEach(sub=>{
+const ss=st.subjStats[sub.id];
+dp+=`\n■ ${sub.name}（掌握率${ss.pct}%）：\n`;
+const cats={'不会':ss.items.filter(it=>it.value==='unknown'),'部分掌握':ss.items.filter(it=>it.value==='partial'),'基本掌握':ss.items.filter(it=>it.value==='basic'),'完全掌握':ss.items.filter(it=>it.value==='mastered')};
+Object.entries(cats).forEach(([cat,items])=>{dp+=`  ${cat}（${items.length}个）：`;dp+=items.length?items.map(it=>`${it.id}.${it.title}`).join('；'):'无';dp+='\n';});
+});
+dp+=`\n请分析以下内容：\n1. 孩子的优势科目和薄弱科目\n2. 各科需要重点提升的知识点及原因分析\n3. 与班级平均水平的对比分析\n4. 针对孩子的个性化家庭辅导建议\n5. 暑假期间的学习安排建议`;
+const dpJSON=JSON.stringify(dp);
+return`<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>${esc(stu.name)} - 学情报告</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(160deg,#E3F2FD 0%,#F5F9FF 40%,#FFFFFF 60%,#E8F0FE 100%);color:#1A237E;min-height:100vh;font-size:15px;line-height:1.6}
+.container{max-width:860px;margin:0 auto;padding:16px}
+.hdr{background:linear-gradient(135deg,#1565C0,#42A5F5);color:#fff;padding:18px 16px;text-align:center;border-radius:14px;margin-bottom:16px}
+.hdr h1{font-size:20px;font-weight:700}
+.hdr p{font-size:12px;opacity:.85;margin-top:4px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:none;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-outline{background:#fff;color:#1565C0;border:2px solid #BBDEFB}
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+@media(min-width:600px){.stat-grid{grid-template-columns:repeat(4,1fr)}.stat-grid-6{grid-template-columns:repeat(3,1fr)}}
+.stat-card{background:#fff;border-radius:10px;padding:14px;box-shadow:0 2px 12px rgba(21,101,192,.08);text-align:center}
+.stat-card .val{font-size:26px;font-weight:700;color:#1565C0}
+.stat-card .val.red{color:#E53935}.stat-card .val.green{color:#43A047}.stat-card .val.orange{color:#FB8C00}
+.stat-card .lbl{font-size:12px;color:#5C6BC0;margin-top:2px}
+.chart-card{background:#fff;border-radius:14px;padding:16px;box-shadow:0 2px 12px rgba(21,101,192,.08);margin-bottom:12px}
+.chart-card h3{font-size:14px;color:#1565C0;margin-bottom:12px}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px}
+.bar-label{width:36px;font-weight:600;color:#5C6BC0;text-align:right;flex-shrink:0}
+.bar-track{flex:1;height:22px;border-radius:6px;overflow:hidden;display:flex;background:#F5F5F5}
+.bar-seg{height:100%}
+.bar-seg[data-v="mastered"]{background:#43A047}.bar-seg[data-v="basic"]{background:#1565C0}.bar-seg[data-v="partial"]{background:#FB8C00}.bar-seg[data-v="unknown"]{background:#E53935}
+.bar-val{width:40px;text-align:right;font-weight:600;color:#1565C0;flex-shrink:0}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:11px;color:#5C6BC0}
+.legend span{display:flex;align-items:center;gap:3px}
+.legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.wp-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border-radius:10px;margin-bottom:6px;font-size:13px;box-shadow:0 2px 12px rgba(21,101,192,.08);border-left:3px solid #E53935}
+.wp-item.partial{border-left-color:#FB8C00}.wp-item.basic{border-left-color:#1565C0}.wp-item.mastered{border-left-color:#43A047}
+.wp-badge{font-size:11px;font-weight:700;color:#fff;padding:2px 6px;border-radius:8px}
+.wp-badge.mastered{background:#43A047}.wp-badge.basic{background:#1565C0}.wp-badge.partial{background:#FB8C00}.wp-badge.unknown{background:#E53935}
+.wp-info{flex:1}.wp-title{font-weight:500;color:#1A237E}.wp-sub{font-size:11px;color:#9FA8DA}
+.subj-detail-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #BBDEFB}
+.subj-detail-icon{font-size:20px}.subj-detail-name{font-size:16px;font-weight:700;color:#1565C0;flex:1}.subj-detail-pct{font-size:16px;font-weight:700;color:#1565C0}
+.kp-cat-group{margin-bottom:8px}
+.kp-cat-hdr{font-size:13px;font-weight:600;padding:5px 10px;border-radius:10px;margin-bottom:4px}
+.kp-cat-hdr.c-unknown{color:#E53935;background:#FFEBEE}.kp-cat-hdr.c-partial{color:#FB8C00;background:#FFF3E0}.kp-cat-hdr.c-basic{color:#1565C0;background:#E3F2FD}.kp-cat-hdr.c-mastered{color:#43A047;background:#E8F5E9}
+.radar-wrap{display:flex;justify-content:center;padding:10px 0}
+.radar-svg{max-width:280px;width:100%;height:auto}
+.db-banner{background:linear-gradient(135deg,#1a73e8,#4285f4);color:#fff;border-radius:14px;padding:16px;text-align:center;margin:12px 0}
+.db-banner h4{font-size:15px;margin-bottom:4px}.db-banner p{font-size:12px;opacity:.9;margin-bottom:10px}
+.db-btn{background:#fff;color:#1a73e8;border:none;padding:10px 24px;border-radius:24px;font-size:14px;font-weight:700;cursor:pointer}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(33,33,33,.92);color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;z-index:300;opacity:0;transition:all .3s;max-width:90%;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast.success{background:#43A047}
+@media print{.btn,.db-banner{display:none}.chart-card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="hdr"><h1>📊 ${esc(stu.name)} - 学情分析报告</h1><p>生成时间：${reportDate} | 总掌握率：${st.overallPct}% | 班级参与：${ca.n||0}人</p></div>
+<button class="btn btn-outline" style="margin-bottom:12px" onclick="window.print()">🖨️ 打印报告</button>
+<div class="stat-grid stat-grid-6">
+<div class="stat-card"><div class="val">${st.overallPct}%</div><div class="lbl">总掌握率</div></div>
+<div class="stat-card"><div class="val">${st.overallCount}</div><div class="lbl">已评知识点</div></div>
+<div class="stat-card"><div class="val red">${totalCounts.unknown}</div><div class="lbl">不会</div></div>
+<div class="stat-card"><div class="val orange">${totalCounts.partial}</div><div class="lbl">部分掌握</div></div>
+<div class="stat-card"><div class="val" style="color:#1565C0">${totalCounts.basic}</div><div class="lbl">基本掌握</div></div>
+<div class="stat-card"><div class="val" style="color:#43A047">${totalCounts.mastered}</div><div class="lbl">完全掌握</div></div>
+</div>
+<div class="stat-grid" style="grid-template-columns:repeat(2,1fr);margin-top:8px">
+<div class="stat-card" style="border-color:#E53935;background:#FFEBEE"><div class="val orange" style="font-size:18px">${weakestSub?weakestSub.icon+' '+weakestSub.name:'—'}</div><div class="lbl">最薄弱科目${weakestSub?'（'+weakestSub.pct+'%）':''}</div></div>
+<div class="stat-card" style="border-color:#43A047;background:#E8F5E9"><div class="val green" style="font-size:18px">${strongestSub?strongestSub.icon+' '+strongestSub.name:'—'}</div><div class="lbl">最强科目${strongestSub?'（'+strongestSub.pct+'%）':''}</div></div>
+</div>
+<div class="chart-card"><h3>📊 各科掌握情况 vs 班级平均</h3>${compHTML}<div class="legend"><span><i style="background:#43A047"></i>完全掌握</span><span><i style="background:#1565C0"></i>基本掌握</span><span><i style="background:#FB8C00"></i>部分掌握</span><span><i style="background:#E53935"></i>不会</span></div></div>
+<div class="chart-card"><h3>🎯 六科掌握雷达图</h3><div class="radar-wrap">${radarSVG}</div></div>
+<div class="chart-card"><h3>📚 分科目知识点掌握详情</h3></div>
+${subjDetailHTML}
+<div class="chart-card"><h3>💡 辅导建议</h3><div style="font-size:13px;color:#5C6BC0;line-height:1.8"><p>1. <b>优先突破「不会」的知识点</b>：共${totalCounts.unknown}个，建议配合老师或课外辅导集中突破。</p><p>2. <b>巩固「部分掌握」的内容</b>：共${totalCounts.partial}个，通过专项练习巩固。</p><p>3. <b>保持「基本掌握」的势头</b>：共${totalCounts.basic}个，适度拔高训练可提升至完全掌握。</p><p>4. <b>持续跟踪进度</b>：当前总掌握率${st.overallPct}%，建议定期重新评估。</p></div></div>
+<div class="db-banner"><h4>🤖 一键提交豆包AI深度分析</h4><p>将调研数据提交给豆包，获取个性化辅导建议和学习规划</p><button class="db-btn" onclick="submitDoubao()">📋 提交豆包分析</button></div>
+</div>
+<div id="toast" class="toast"></div>
+<script>
+var DOUBAO_PROMPT=${dpJSON};
+function submitDoubao(){
+var ta=document.createElement('textarea');ta.value=DOUBAO_PROMPT;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+window.open('https://www.doubao.com/chat/?q='+encodeURIComponent(DOUBAO_PROMPT.slice(0,1800)),'_blank');
+var t=document.getElementById('toast');t.textContent='✅ 分析数据已复制到剪贴板，正在打开豆包...';t.className='toast show success';setTimeout(function(){t.classList.remove('show');},3000);
+}
+<\/script>
+</body>
+</html>`;
+}
+
+function downloadReport(stu,classAvgData,filename){
+const html=buildReportHTML(stu,classAvgData);
+const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+const url=URL.createObjectURL(blob);
+const a=document.createElement('a');a.href=url;a.download=filename||(stu.name+'_学情报告.html');document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+function downloadMyReport(){
+if(!S.myData){toast('暂无数据','error');return;}
+const cs=calcClassStats();
+const ca=cs?{n:cs.n,avgs:{}}:{n:0,avgs:{}};
+if(cs)SUBJECTS.forEach(sub=>{ca.avgs[sub.id]=cs.subjStats[sub.id].avgPct;});
+downloadReport(S.myData,ca,S.myData.name+'_学情报告.html');
+toast('已生成学情报告','success');
+}
+
+function exportCurrentSurvey(){
+const stu={name:S.student.name.trim(),responses:S.student.responses,timestamp:new Date().toISOString()};
+const cs=calcClassStats();
+const ca=cs?{n:cs.n,avgs:{}}:{n:0,avgs:{}};
+if(cs)SUBJECTS.forEach(sub=>{ca.avgs[sub.id]=cs.subjStats[sub.id].avgPct;});
+downloadReport(stu,ca,stu.name+'_学情报告.html');
+toast('已导出本次填报报告','success');
 }
 
 // ===== UTILS =====
