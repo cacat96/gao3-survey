@@ -1035,21 +1035,25 @@ subjDistHTML+=`
 });
 
 // Student table
+const bottomThirdStart=stuRanks.length-bottomThirdCount;
 let stuTableHTML=stuRanks.map((s,i)=>{
 const rank=i+1;
 const rcls=rank<=3?`rank-${rank}`:'rank-o';
-return `<tr>
+const isAtRisk=i>=bottomThirdStart;
+return `<tr${isAtRisk?' style="background:#FFEBEE"':''}>
 <td><span class="rank-badge ${rcls}">${rank}</span></td>
-<td style="text-align:left;font-weight:600">${esc(s.name)}</td>
-<td>${s.overallPct}%</td>
+<td style="text-align:left;font-weight:600">${esc(s.name)}${isAtRisk?' <span style="color:var(--m4);font-size:11px">⚠️</span>':''}</td>
+<td style="${isAtRisk?'color:var(--m4);font-weight:700':''}">${s.overallPct}%</td>
 <td><div class="pct-bar"><div class="pct-fill" style="width:${s.overallPct}%"></div></div></td>
 <td>${s.answeredCount}/61</td>
 <td><button class="btn btn-outline btn-sm" onclick="viewStudentDetail(${i})">详情</button></td>
 </tr>`;
 }).join('');
 
-// Need-attention students (below 50%)
-const needAttention=stuRanks.filter(s=>s.overallPct<50).map(s=>s.name).join('、')||'无';
+// Need-attention students: bottom 1/3 by mastery rate
+const bottomThirdCount=Math.max(1,Math.ceil(n/3));
+const needAttentionList=stuRanks.slice(-bottomThirdCount);
+const needAttention=needAttentionList.map(s=>`${s.name}（${s.overallPct}%）`).join('、')||'无';
 
 el.innerHTML=`
 <div class="stat-grid">
@@ -1098,9 +1102,10 @@ ${perSubjectWeakHTML}
 <div class="chart-card">
 <h3>📌 教学重点关注</h3>
 <div style="font-size:13px;color:var(--ts);line-height:1.8">
-<p><b style="color:var(--m4)">⚠️ 需重点关注的学生：</b>${needAttention}</p>
+<p style="background:var(--m4b);padding:8px 12px;border-radius:8px;margin-bottom:8px"><b style="color:var(--m4)">📌 重点关注规则：</b>按总掌握率排名，后 1/3 的学生（共 ${bottomThirdCount} 人）需重点关注</p>
+<p><b style="color:var(--m4)">⚠️ 需重点关注的学生（后1/3）：</b>${needAttention}</p>
 <p><b style="color:var(--m3)">📝 最薄弱科目：</b>${weakestSub?weakestSub.name+'（'+weakestSub.avgPct+'%）':''}</p>
-<p><b style="color:var(--m2)">💡 教学建议：</b>建议针对上述薄弱知识点进行专项复习，优先解决掌握率低于40%的模块。对于需要重点关注的学生，建议课后加强辅导。</p>
+<p><b style="color:var(--m2)">💡 教学建议：</b>建议针对上述薄弱知识点进行专项复习，优先解决掌握率低于40%的模块。对于需重点关注的学生，建议课后加强辅导和个性化跟踪。</p>
 </div>
 </div>
 
@@ -1556,12 +1561,18 @@ if(it.value==='unknown')weak.push(`${sub.name}-${it.id}`);
 if(weak.length)txt+=`  不会的知识点：${weak.join('、')}\n`;
 });
 
+// Need-attention students in prompt
+const stuRanksForPrompt=S.students.map(stu=>{const st=calcStudentStats(stu);return{name:stu.name,overallPct:st.overallPct};}).sort((a,b)=>b.overallPct-a.overallPct);
+const nAttention=Math.max(1,Math.ceil(n/3));
+const attentionNames=stuRanksForPrompt.slice(-nAttention).map(s=>s.name).join('、');
+txt+=`\n【需重点关注的学生（按总掌握率排名后1/3，共${nAttention}人）】\n${attentionNames}\n`;
+
 txt+=`
 
 请分析以下内容：
 1. 全班各科整体掌握情况评估
 2. 最薄弱的3-5个知识点及教学突破策略
-3. 需要重点关注的学生及个性化辅导方向
+3. 需要重点关注的学生（后1/3）及个性化辅导方向
 4. 针对性的教学计划建议（按优先级排列）
 5. 班级整体提升方案`;
 
