@@ -656,6 +656,7 @@ c.innerHTML=`
 <div class="sub">请评估以下${sub.items.length}个知识模块的掌握情况</div>
 </div>
 <div class="kp-list" id="kp-list">${items}</div>`;
+setTimeout(()=>{const f=document.querySelector('#kp-list .kp-item');if(f)f.scrollIntoView({behavior:'smooth',block:'start'});},80);
 }
 else if(S.step===TOTAL_STEPS-1){
 btnNext.textContent='提交调研 ✓';
