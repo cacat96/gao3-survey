@@ -267,7 +267,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 <span>隐私保护：以下仅显示<b>您自己</b>的调研数据，其他同学的数据不可见。班级平均数据仅用于对比参考。</span>
 </div>
 <div class="res-actions">
-<button class="btn btn-outline btn-sm" onclick="retakeSurvey()">✍️ 重新填写</button>
 <button class="btn btn-outline btn-sm" onclick="restartSurvey()">🔄 重新填报</button>
 <button class="btn btn-outline btn-sm" onclick="downloadMyReport()">📄 导出报告</button>
 </div>
@@ -806,13 +805,6 @@ S.tab=tab;
 document.querySelectorAll('.res-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
 document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
 document.getElementById('tab-'+tab).classList.add('active');
-}
-
-function retakeSurvey(){
-if(!confirm('确定要重新填写调研吗？\n\n您之前的数据不会被删除，提交后将覆盖更新。')){
-return;
-}
-startSurvey();
 }
 
 function restartSurvey(){
