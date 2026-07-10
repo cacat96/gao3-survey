@@ -66,6 +66,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .ai-panel .ai-loading .ai-sub{font-size:12px;color:#5C6BC0;margin-top:10px}
 @keyframes ai-progress-anim{from{width:0%}to{width:95%}}
 @keyframes spin{to{transform:rotate(360deg)}}
+.ai-panel .ai-cursor{display:inline-block;width:8px;height:16px;background:#1565C0;margin-left:2px;vertical-align:text-bottom;animation:ai-blink 0.8s steps(1) infinite}
+@keyframes ai-blink{0%,50%{opacity:1}51%,100%{opacity:0}}
 .ai-panel .ai-result{font-size:14px;line-height:1.8;color:#1A237E;word-break:break-word}
 .ai-panel .ai-result h1,.ai-panel .ai-result h2,.ai-panel .ai-result h3,.ai-panel .ai-result h4,.ai-panel .ai-result h5,.ai-panel .ai-result h6{font-weight:700;margin:12px 0 6px;color:#0D47A1}
 .ai-panel .ai-result h1{font-size:18px}.ai-panel .ai-result h2{font-size:17px}.ai-panel .ai-result h3{font-size:16px}.ai-panel .ai-result h4{font-size:15px}.ai-panel .ai-result h5{font-size:14px}.ai-panel .ai-result h6{font-size:13px}
@@ -1270,6 +1272,7 @@ container.innerHTML='<div class="ai-loading"><div class="ai-spinner"></div><div 
 container.style.display='block';
 container.scrollIntoView({behavior:'smooth',block:'center'});
 var _dotTimer=setInterval(function(){var e=container.querySelector('.ai-sub-dots');if(!e){clearInterval(_dotTimer);return;}var d=e.textContent.length;d=d>=3?1:d+1;e.textContent='.'.repeat(d);},500);
+var _renderTimer=null;
 try{
 const resp=await fetch(AGNES_API_URL,{
 method:'POST',
@@ -1277,21 +1280,62 @@ headers:{'Authorization':'Bearer '+AGNES_API_KEY,'Content-Type':'application/jso
 body:JSON.stringify({
 model:AGNES_MODEL,
 messages:[
-{role:'system',content:'你是一位资深的高三教育分析专家，擅长根据学生知识点掌握数据给出专业的教学建议和学习规划。请用中文回答，格式清晰，使用标题和分点说明。'},
+{role:'system',content:'你是高三教育分析专家，擅长根据知识点掌握数据给出专业教学建议。用中文回答，格式清晰，用标题和分点说明。'},
 {role:'user',content:prompt}
 ],
-max_tokens:4096,
-temperature:0.7
+max_tokens:2048,
+temperature:0.3,
+stream:true
 })
 });
 if(!resp.ok){throw new Error('API返回错误: '+resp.status);}
-const data=await resp.json();
-const result=data.choices[0].message.content;
-container.innerHTML='<div class="ai-result">'+mdToHtml(result)+'</div>';
+const reader=resp.body.getReader();
+const decoder=new TextDecoder();
+var buffer='';
+var fullText='';
+var firstToken=false;
+while(true){
+const{done,value}=await reader.read();
+if(done)break;
+buffer+=decoder.decode(value,{stream:true});
+var lines=buffer.split('\n');
+buffer=lines.pop();
+for(var i=0;i<lines.length;i++){
+var line=lines[i].trim();
+if(!line.startsWith('data: '))continue;
+var jsonStr=line.slice(6);
+if(jsonStr==='[DONE]')continue;
+try{
+var j=JSON.parse(jsonStr);
+var delta=j.choices&&j.choices[0]&&j.choices[0].delta;
+if(delta&&delta.content){
+if(!firstToken){
+firstToken=true;
 clearInterval(_dotTimer);
+container.innerHTML='<div class="ai-result"><div class="ai-streaming"></div><span class="ai-cursor"></span></div>';
+}
+fullText+=delta.content;
+var rd=container.querySelector('.ai-streaming');
+if(rd){
+if(_renderTimer)clearTimeout(_renderTimer);
+var ft=fullText;
+_renderTimer=setTimeout(function(){rd.innerHTML=mdToHtml(ft);},100);
+}
+}
+}catch(pe){}
+}
+}
+clearInterval(_dotTimer);
+if(_renderTimer)clearTimeout(_renderTimer);
+if(fullText.trim()){
+container.innerHTML='<div class="ai-result">'+mdToHtml(fullText)+'</div>';
 toast('AI分析完成','success');
+}else{
+throw new Error('AI返回内容为空');
+}
 }catch(e){
 clearInterval(_dotTimer);
+if(_renderTimer)clearTimeout(_renderTimer);
 container.innerHTML='<div class="ai-error">分析失败：'+esc(e.message)+'<br><button class="btn btn-outline btn-sm" style="margin-top:8px" onclick="document.getElementById(\''+containerId+'\').innerHTML=\'\';submitToAI(\''+containerId.replace('ai-result-','')+'\')">重试</button></div>';
 toast('AI分析失败','error');
 }
@@ -1443,6 +1487,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .site-topbar{position:fixed;top:0;left:0;right:0;height:30px;background:linear-gradient(135deg,#0D47A1,#1565C0);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;letter-spacing:1px;z-index:100;box-shadow:0 2px 4px rgba(0,0,0,.15)}
 .site-footer{position:fixed;bottom:0;left:0;right:0;height:28px;background:#1A237E;color:rgba(255,255,255,.65);display:flex;align-items:center;justify-content:center;font-size:11px;z-index:100;box-shadow:0 -2px 4px rgba(0,0,0,.1)}
 @keyframes spin{to{transform:rotate(360deg)}}
+.ai-cursor{display:inline-block;width:8px;height:16px;background:#1565C0;margin-left:2px;vertical-align:text-bottom;animation:ai-blink 0.8s steps(1) infinite}
+@keyframes ai-blink{0%,50%{opacity:1}51%,100%{opacity:0}}
 .ai-panel{background:linear-gradient(135deg,#E3F2FD,#F5F9FF);border:2px solid #90CAF9;border-radius:12px;padding:16px;margin:12px 0;min-height:60px}
 .ai-panel .ai-result{font-size:14px;line-height:1.8;color:#1A237E;word-break:break-word}
 .ai-panel .ai-result h1,.ai-panel .ai-result h2,.ai-panel .ai-result h3,.ai-panel .ai-result h4,.ai-panel .ai-result h5,.ai-panel .ai-result h6{font-weight:700;margin:12px 0 6px;color:#0D47A1}
@@ -1504,8 +1550,9 @@ var panel=document.getElementById('ai-panel');
 panel.style.display='block';
 panel.innerHTML='<div class="ai-loading"><div class="ai-spinner"></div><div class="ai-title">AI正在深度分析中，请稍候</div><div class="ai-progress"><div class="ai-progress-fill"></div></div><div class="ai-sub">正在解析60个知识点<span class="ai-sub-dots">...</span></div></div>';
 var _dt=setInterval(function(){var e=panel.querySelector('.ai-sub-dots');if(!e){clearInterval(_dt);return;}var d=e.textContent.length;d=d>=3?1:d+1;e.textContent='.'.repeat(d);},500);
+var _rt=null;
 panel.scrollIntoView({behavior:'smooth',block:'center'});
-fetch(API_URL,{method:'POST',headers:{'Authorization':'Bearer '+API_KEY,'Content-Type':'application/json'},body:JSON.stringify({model:MODEL,messages:[{role:'system',content:'你是一位资深的高三教育分析专家，擅长根据学生知识点掌握数据给出专业的教学建议和学习规划。请用中文回答，格式清晰，使用标题和分点说明。'},{role:'user',content:PROMPT}],max_tokens:4096,temperature:0.7})}).then(function(r){return r.json();}).then(function(data){clearInterval(_dt);var result=data.choices[0].message.content;panel.innerHTML='<div class="ai-result">'+mdToHtml(result)+'</div>';var t=document.getElementById('toast');t.textContent='AI分析完成';t.className='toast show success';setTimeout(function(){t.classList.remove('show');},3000);}).catch(function(e){clearInterval(_dt);panel.innerHTML='<div style="color:#C62828;font-size:13px;text-align:center;padding:20px 0">分析失败：'+e.message+'<br><button onclick="callReportAI()" style="margin-top:8px;padding:6px 16px;border:1px solid #1565C0;border-radius:20px;background:#fff;color:#1565C0;cursor:pointer">重试</button></div>';});
+fetch(API_URL,{method:'POST',headers:{'Authorization':'Bearer '+API_KEY,'Content-Type':'application/json'},body:JSON.stringify({model:MODEL,messages:[{role:'system',content:'你是高三教育分析专家，擅长根据知识点掌握数据给出专业教学建议。用中文回答，格式清晰，用标题和分点说明。'},{role:'user',content:PROMPT}],max_tokens:2048,temperature:0.3,stream:true})}).then(function(r){if(!r.ok)throw new Error('API错误:'+r.status);var reader=r.body.getReader();var dec=new TextDecoder();var buf='';var full='';var ft2=false;function pump(){return reader.read().then(function(ch){if(ch.done)return;buf+=dec.decode(ch.value,{stream:true});var lns=buf.split('\\n');buf=lns.pop();for(var k=0;k<lns.length;k++){var ln=lns[k].trim();if(!ln.startsWith('data: '))continue;var js=ln.slice(6);if(js==='[DONE]')continue;try{var pj=JSON.parse(js);var dlt=pj.choices&&pj.choices[0]&&pj.choices[0].delta;if(dlt&&dlt.content){if(!ft2){ft2=true;clearInterval(_dt);panel.innerHTML='<div class="ai-result"><div class="ai-streaming"></div><span class="ai-cursor"></span></div>';}full+=dlt.content;var rd=panel.querySelector('.ai-streaming');if(rd){if(_rt)clearTimeout(_rt);var fc=full;_rt=setTimeout(function(){rd.innerHTML=mdToHtml(fc);},100);}}}catch(pe){}}return pump();});}return pump().then(function(){clearInterval(_dt);if(_rt)clearTimeout(_rt);if(full.trim()){panel.innerHTML='<div class="ai-result">'+mdToHtml(full)+'</div>';var t=document.getElementById('toast');t.textContent='AI分析完成';t.className='toast show success';setTimeout(function(){t.classList.remove('show');},3000);}else{throw new Error('AI返回为空');}});}).catch(function(e){clearInterval(_dt);if(_rt)clearTimeout(_rt);panel.innerHTML='<div style="color:#C62828;font-size:13px;text-align:center;padding:20px 0">分析失败：'+e.message+'<br><button onclick="callReportAI()" style="margin-top:8px;padding:6px 16px;border:1px solid #1565C0;border-radius:20px;background:#fff;color:#1565C0;cursor:pointer">重试</button></div>';});
 }
 <\/script>
 <div class="site-footer">AI辅助 仅供参考 不得外传</div>
