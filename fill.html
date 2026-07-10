@@ -61,8 +61,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .ai-panel .ai-loading{display:flex;align-items:center;gap:10px;justify-content:center;padding:20px 0;color:#1565C0;font-size:14px}
 .ai-panel .ai-loading .spinner{width:20px;height:20px;border:3px solid #90CAF9;border-top-color:#1565C0;border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.ai-panel .ai-result{font-size:14px;line-height:1.8;color:#1A237E;white-space:pre-wrap;word-break:break-word}
-.ai-panel .ai-result h5{font-size:15px;font-weight:700;margin:10px 0 4px;color:#0D47A1}
+.ai-panel .ai-result{font-size:14px;line-height:1.8;color:#1A237E;word-break:break-word}
+.ai-panel .ai-result h1,.ai-panel .ai-result h2,.ai-panel .ai-result h3,.ai-panel .ai-result h4,.ai-panel .ai-result h5,.ai-panel .ai-result h6{font-weight:700;margin:12px 0 6px;color:#0D47A1}
+.ai-panel .ai-result h1{font-size:18px}.ai-panel .ai-result h2{font-size:17px}.ai-panel .ai-result h3{font-size:16px}.ai-panel .ai-result h4{font-size:15px}.ai-panel .ai-result h5{font-size:14px}.ai-panel .ai-result h6{font-size:13px}
+.ai-panel .ai-result p{margin:6px 0}
+.ai-panel .ai-result strong{font-weight:700;color:#0D47A1}
+.ai-panel .ai-result ul,.ai-panel .ai-result ol{margin:6px 0;padding-left:20px}
+.ai-panel .ai-result li{margin:3px 0}
+.ai-panel .ai-result .md-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px;overflow-x:auto;display:block}
+.ai-panel .ai-result .md-table th{background:#1565C0;color:#fff;padding:8px 10px;text-align:left;border:1px solid #0D47A1;font-weight:600;white-space:nowrap}
+.ai-panel .ai-result .md-table td{padding:8px 10px;border:1px solid #BBDEFB}
+.ai-panel .ai-result .md-table tr:nth-child(even){background:#F5F9FF}
+.ai-panel .ai-result code{background:#E3F2FD;padding:2px 6px;border-radius:4px;font-size:13px;color:#0D47A1}
 .ai-panel .ai-error{color:#C62828;font-size:13px;text-align:center;padding:20px 0}
 .kp-item{background:#fff;border-radius:var(--rs);margin-bottom:10px;padding:14px;box-shadow:var(--sh);border:1px solid #EEF5FD;transition:all .2s}
 .kp-item.answered{border-left:3px solid var(--pl)}
@@ -1194,6 +1204,60 @@ const AGNES_API_URL='https://apihub.agnes-ai.com/v1/chat/completions';
 const AGNES_API_KEY='sk-qQzr0T69qu4JbHJjG3lGmBeNowrMhS44cTlQQPWsCcv8dCoH';
 const AGNES_MODEL='agnes-2.0-flash';
 
+function mdToHtml(md){
+var s=md.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+var lines=s.split('\n');
+var html='';
+var i=0;
+while(i<lines.length){
+var line=lines[i];
+var trimmed=line.trim();
+if(!trimmed){i++;continue;}
+if(trimmed.startsWith('|')){
+var tableLines=[];
+while(i<lines.length&&lines[i].trim().startsWith('|')){tableLines.push(lines[i].trim());i++;}
+if(tableLines.length>=2){
+html+='<table class="md-table"><thead><tr>';
+var hdr=tableLines[0].replace(/^\||\|$/g,'').split('|').map(function(c){return c.trim();});
+html+=hdr.map(function(c){return '<th>'+inlineMd(c)+'</th>';}).join('');
+html+='</tr></thead><tbody>';
+for(var j=2;j<tableLines.length;j++){
+var cells=tableLines[j].replace(/^\||\|$/g,'').split('|').map(function(c){return c.trim();});
+html+='<tr>'+cells.map(function(c){return '<td>'+inlineMd(c)+'</td>';}).join('')+'</tr>';
+}
+html+='</tbody></table>';
+continue;
+}
+}
+var hMatch=trimmed.match(/^(#{1,6})\s+(.+)$/);
+if(hMatch){
+var lv=hMatch[1].length;
+html+='<h'+lv+'>'+inlineMd(hMatch[2])+'</h'+lv+'>';
+i++;
+continue;
+}
+if(/^\s*[-*]\s+/.test(line)||/^\s*\d+\.\s+/.test(line)){
+var isOl=/^\s*\d+\.\s+/.test(line);
+html+=isOl?'<ol>':'<ul>';
+while(i<lines.length&&(/^\s*[-*]\s+/.test(lines[i])||/^\s*\d+\.\s+/.test(lines[i]))){
+var content=lines[i].replace(/^\s*[-*]\s+/,'').replace(/^\s*\d+\.\s+/,'');
+html+='<li>'+inlineMd(content)+'</li>';
+i++;
+}
+html+=isOl?'</ol>':'</ul>';
+continue;
+}
+html+='<p>'+inlineMd(trimmed)+'</p>';
+i++;
+}
+return html;
+}
+function inlineMd(t){
+t=t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+t=t.replace(/`(.+?)`/g,'<code>$1</code>');
+return t;
+}
+
 async function callAgnesAI(prompt,containerId){
 const container=document.getElementById(containerId);
 if(!container)return;
@@ -1217,7 +1281,7 @@ temperature:0.7
 if(!resp.ok){throw new Error('API返回错误: '+resp.status);}
 const data=await resp.json();
 const result=data.choices[0].message.content;
-container.innerHTML='<div class="ai-result">'+esc(result).replace(/\n/g,'<br>')+'</div>';
+container.innerHTML='<div class="ai-result">'+mdToHtml(result)+'</div>';
 toast('AI分析完成','success');
 }catch(e){
 container.innerHTML='<div class="ai-error">分析失败：'+esc(e.message)+'<br><button class="btn btn-outline btn-sm" style="margin-top:8px" onclick="document.getElementById(\''+containerId+'\').innerHTML=\'\';submitToAI(\''+containerId.replace('ai-result-','')+'\')">重试</button></div>';
@@ -1372,7 +1436,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .site-footer{position:fixed;bottom:0;left:0;right:0;height:28px;background:#1A237E;color:rgba(255,255,255,.65);display:flex;align-items:center;justify-content:center;font-size:11px;z-index:100;box-shadow:0 -2px 4px rgba(0,0,0,.1)}
 @keyframes spin{to{transform:rotate(360deg)}}
 .ai-panel{background:linear-gradient(135deg,#E3F2FD,#F5F9FF);border:2px solid #90CAF9;border-radius:12px;padding:16px;margin:12px 0;min-height:60px}
-.ai-panel .ai-result{font-size:14px;line-height:1.8;color:#1A237E;white-space:pre-wrap;word-break:break-word}
+.ai-panel .ai-result{font-size:14px;line-height:1.8;color:#1A237E;word-break:break-word}
+.ai-panel .ai-result h1,.ai-panel .ai-result h2,.ai-panel .ai-result h3,.ai-panel .ai-result h4,.ai-panel .ai-result h5,.ai-panel .ai-result h6{font-weight:700;margin:12px 0 6px;color:#0D47A1}
+.ai-panel .ai-result h1{font-size:18px}.ai-panel .ai-result h2{font-size:17px}.ai-panel .ai-result h3{font-size:16px}.ai-panel .ai-result h4{font-size:15px}.ai-panel .ai-result h5{font-size:14px}.ai-panel .ai-result h6{font-size:13px}
+.ai-panel .ai-result p{margin:6px 0}
+.ai-panel .ai-result strong{font-weight:700;color:#0D47A1}
+.ai-panel .ai-result ul,.ai-panel .ai-result ol{margin:6px 0;padding-left:20px}
+.ai-panel .ai-result li{margin:3px 0}
+.ai-panel .ai-result .md-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px;overflow-x:auto;display:block}
+.ai-panel .ai-result .md-table th{background:#1565C0;color:#fff;padding:8px 10px;text-align:left;border:1px solid #0D47A1;font-weight:600;white-space:nowrap}
+.ai-panel .ai-result .md-table td{padding:8px 10px;border:1px solid #BBDEFB}
+.ai-panel .ai-result .md-table tr:nth-child(even){background:#F5F9FF}
+.ai-panel .ai-result code{background:#E3F2FD;padding:2px 6px;border-radius:4px;font-size:13px;color:#0D47A1}
 @media print{.btn,.db-banner,.site-topbar,.site-footer,.ai-panel{display:none}.chart-card{break-inside:avoid}body{padding:0}}
 </style>
 </head>
@@ -1407,12 +1482,14 @@ var PROMPT=${dpJSON};
 var API_URL='https://apihub.agnes-ai.com/v1/chat/completions';
 var API_KEY='${AGNES_API_KEY}';
 var MODEL='agnes-2.0-flash';
+function mdToHtml(md){var s=md.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');var lines=s.split('\\n');var html='';var i=0;while(i<lines.length){var line=lines[i];var trimmed=line.trim();if(!trimmed){i++;continue;}if(trimmed.startsWith('|')){var tl=[];while(i<lines.length&&lines[i].trim().startsWith('|')){tl.push(lines[i].trim());i++;}if(tl.length>=2){html+='<table class="md-table"><thead><tr>';var hdr=tl[0].replace(/^\\||\\|$/g,'').split('|').map(function(c){return c.trim();});html+=hdr.map(function(c){return '<th>'+inlineMd(c)+'</th>';}).join('');html+='</tr></thead><tbody>';for(var j=2;j<tl.length;j++){var cells=tl[j].replace(/^\\||\\|$/g,'').split('|').map(function(c){return c.trim();});html+='<tr>'+cells.map(function(c){return '<td>'+inlineMd(c)+'</td>';}).join('')+'</tr>';}html+='</tbody></table>';continue;}}var hm=trimmed.match(/^(#{1,6})\s+(.+)$/);if(hm){html+='<h'+hm[1].length+'>'+inlineMd(hm[2])+'</h'+hm[1].length+'>';i++;continue;}if(/^\s*[-*]\s+/.test(line)||/^\s*\d+\.\s+/.test(line)){var isOl=/^\s*\d+\.\s+/.test(line);html+=isOl?'<ol>':'<ul>';while(i<lines.length&&(/^\s*[-*]\s+/.test(lines[i])||/^\s*\d+\.\s+/.test(lines[i]))){var c=lines[i].replace(/^\s*[-*]\s+/,'').replace(/^\s*\d+\.\s+/,'');html+='<li>'+inlineMd(c)+'</li>';i++;}html+=isOl?'</ol>':'</ul>';continue;}html+='<p>'+inlineMd(trimmed)+'</p>';i++;}return html;}
+function inlineMd(t){t=t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');t=t.replace(/\`(.+?)\`/g,'<code>$1</code>');return t;}
 function callReportAI(){
 var panel=document.getElementById('ai-panel');
 panel.style.display='block';
 panel.innerHTML='<div style="display:flex;align-items:center;gap:10px;justify-content:center;padding:20px 0;color:#1565C0;font-size:14px"><div style="width:20px;height:20px;border:3px solid #90CAF9;border-top-color:#1565C0;border-radius:50%;animation:spin 0.8s linear infinite"></div>AI正在深度分析中，请稍候...</div>';
 panel.scrollIntoView({behavior:'smooth',block:'center'});
-fetch(API_URL,{method:'POST',headers:{'Authorization':'Bearer '+API_KEY,'Content-Type':'application/json'},body:JSON.stringify({model:MODEL,messages:[{role:'system',content:'你是一位资深的高三教育分析专家，擅长根据学生知识点掌握数据给出专业的教学建议和学习规划。请用中文回答，格式清晰，使用标题和分点说明。'},{role:'user',content:PROMPT}],max_tokens:4096,temperature:0.7})}).then(function(r){return r.json();}).then(function(data){var result=data.choices[0].message.content;panel.innerHTML='<div style="font-size:14px;line-height:1.8;color:#1A237E;white-space:pre-wrap;word-break:break-word">'+result.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\\n/g,'<br>')+'</div>';var t=document.getElementById('toast');t.textContent='AI分析完成';t.className='toast show success';setTimeout(function(){t.classList.remove('show');},3000);}).catch(function(e){panel.innerHTML='<div style="color:#C62828;font-size:13px;text-align:center;padding:20px 0">分析失败：'+e.message+'<br><button onclick="callReportAI()" style="margin-top:8px;padding:6px 16px;border:1px solid #1565C0;border-radius:20px;background:#fff;color:#1565C0;cursor:pointer">重试</button></div>';});
+fetch(API_URL,{method:'POST',headers:{'Authorization':'Bearer '+API_KEY,'Content-Type':'application/json'},body:JSON.stringify({model:MODEL,messages:[{role:'system',content:'你是一位资深的高三教育分析专家，擅长根据学生知识点掌握数据给出专业的教学建议和学习规划。请用中文回答，格式清晰，使用标题和分点说明。'},{role:'user',content:PROMPT}],max_tokens:4096,temperature:0.7})}).then(function(r){return r.json();}).then(function(data){var result=data.choices[0].message.content;panel.innerHTML='<div class="ai-result">'+mdToHtml(result)+'</div>';var t=document.getElementById('toast');t.textContent='AI分析完成';t.className='toast show success';setTimeout(function(){t.classList.remove('show');},3000);}).catch(function(e){panel.innerHTML='<div style="color:#C62828;font-size:13px;text-align:center;padding:20px 0">分析失败：'+e.message+'<br><button onclick="callReportAI()" style="margin-top:8px;padding:6px 16px;border:1px solid #1565C0;border-radius:20px;background:#fff;color:#1565C0;cursor:pointer">重试</button></div>';});
 }
 <\/script>
 <div class="site-footer">AI辅助 仅供参考 不得外传</div>
