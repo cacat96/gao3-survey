@@ -69,6 +69,36 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 
 /* Knowledge items */
 .kp-list{padding:0 4px}
+
+/* Other notes input */
+.other-wrap{background:#fff;border-radius:var(--rs);margin:12px 4px;padding:14px;box-shadow:var(--sh);border:1px solid #E3F2FD}
+.other-wrap h4{font-size:14px;color:var(--tp);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.other-wrap .other-hint{font-size:11px;color:var(--tm);margin-bottom:8px}
+.other-textarea{width:100%;min-height:72px;padding:10px;border:2px solid var(--border);border-radius:8px;font-size:13px;resize:vertical;font-family:inherit;line-height:1.5;box-sizing:border-box;transition:border-color .2s}
+.other-textarea:focus{outline:none;border-color:var(--pl)}
+.other-counter{text-align:right;font-size:11px;color:var(--tm);margin-top:4px}
+
+/* AI result panel */
+.ai-panel{background:linear-gradient(135deg,#E3F2FD,#F5F9FF);border:2px solid #90CAF9;border-radius:12px;padding:16px;margin:12px 0;min-height:60px}
+.ai-panel .ai-loading{display:flex;align-items:center;gap:10px;justify-content:center;padding:20px 0;color:#1565C0;font-size:14px}
+.ai-panel .ai-loading .spinner{width:20px;height:20px;border:3px solid #90CAF9;border-top-color:#1565C0;border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ai-panel .ai-result{font-size:14px;line-height:1.8;color:#1A237E;white-space:pre-wrap;word-break:break-word}
+.ai-panel .ai-result h5{font-size:15px;font-weight:700;margin:10px 0 4px;color:#0D47A1}
+.ai-panel .ai-error{color:#C62828;font-size:13px;text-align:center;padding:20px 0}
+
+/* Subject sub-tabs */
+.subj-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;padding:8px;background:#fff;border-radius:var(--r);box-shadow:var(--sh);position:sticky;top:92px;z-index:90}
+.subj-tab{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid var(--border);background:#fff;color:var(--ts);transition:all .2s;white-space:nowrap}
+.subj-tab.active{background:linear-gradient(135deg,var(--p),var(--pl));color:#fff;border-color:transparent}
+.subj-tab:active{transform:scale(.95)}
+
+/* Aggregated other notes */
+.other-aggregate{background:#FFF8E1;border:1px solid #FFE082;border-radius:8px;padding:12px;margin:8px 0}
+.other-aggregate-item{padding:6px 0;border-bottom:1px dashed #FFE082}
+.other-aggregate-item:last-child{border-bottom:none}
+.other-aggregate-item .name{font-weight:600;color:#E65100;font-size:12px}
+.other-aggregate-item .content{font-size:13px;color:#5D4037;margin-top:2px;line-height:1.5}
 .kp-item{background:#fff;border-radius:var(--rs);margin-bottom:10px;padding:14px;box-shadow:var(--sh);border:1px solid #EEF5FD;transition:all .2s}
 .kp-item.answered{border-left:3px solid var(--pl)}
 .kp-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
@@ -191,7 +221,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .radar-wrap{display:flex;justify-content:center;padding:10px 0}
 .radar-svg{max-width:280px;width:100%;height:auto}
 
-/* Doubao banner */
+/* AI banner */
 .db-banner{background:linear-gradient(135deg,#1a73e8,#4285f4);color:#fff;border-radius:var(--r);padding:16px;margin:12px 4px;text-align:center}
 .db-banner h4{font-size:15px;margin-bottom:4px}
 .db-banner p{font-size:12px;opacity:.9;margin-bottom:10px}
@@ -292,7 +322,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 <div class="home-hero">
 <div class="icon">🎓</div>
 <h2>全面把脉 · 精准提升</h2>
-<p>覆盖语文、数学、英语、物理、化学、生物六大科目，共计61个核心知识模块，帮助学生、家长、老师全面了解学习状况，有针对性地进行指导。</p>
+<p>覆盖语文、数学、英语、物理、化学、生物六大科目，共计60个核心知识模块，帮助学生、家长、老师全面了解学习状况，有针对性地进行指导。</p>
 <div class="home-stats" id="home-stats"></div>
 <div class="home-actions">
 <button class="btn btn-primary" onclick="startSurvey()">✍️ 开始填写调研</button>
@@ -310,7 +340,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 <li><b>生物</b>（遗传核心）：10个知识模块，覆盖基础铺垫、遗传定律、分子遗传、变异与育种、遗传综合</li>
 <li><b>四个量级</b>：完全掌握 / 基本掌握 / 部分掌握 / 不会</li>
 <li><b>三种视角</b>：老师视角（班级全局）、家长视角（个体对比）、学生视角（自我提升）</li>
-<li><b>一键分析</b>：支持提交豆包AI进行深度分析，无需登录即可使用</li>
+<li><b>一键分析</b>：支持提交AI进行深度分析，点击即可获取专业教学建议</li>
 </ul>
 </div>
 <div class="home-info">
@@ -319,7 +349,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 <li>每位学生/家长点击「开始填写调研」，输入姓名后逐科评估</li>
 <li>填写完成后数据自动保存在本设备，可随时查看统计</li>
 <li>如需汇总多人数据：用「导出数据」生成分享码，发送给汇总人「导入数据」</li>
-<li>在统计页面选择老师/家长/学生视角，点击「提交豆包分析」获取AI建议</li>
+<li>在统计页面选择老师/家长/学生视角，点击「提交AI分析」获取AI建议</li>
 </ul>
 </div>
 </div>
@@ -427,7 +457,6 @@ const SUBJECTS=[
 {id:'H',t:'论证方法强化与素材一材多用技巧',m:'议论文写作'},
 {id:'I',t:'作文语言升格与思辨性深度提升',m:'议论文写作'},
 {id:'J',t:'实用类文体写作（发言稿/书信/演讲稿）',m:'其他写作'},
-{id:'K',t:'作文错题复盘与个性化升格指导',m:'写作提升'},
 ]},
 {id:'math',name:'数学',sub:'',icon:'📐',color:'#9C27B0',items:[
 {id:'A',t:'指对幂函数性质与比大小技巧',m:'函数与导数'},
@@ -504,10 +533,11 @@ const TOTAL_STEPS=8; // 0:name,1-6:subjects,7:summary
 let S={
 view:'home',
 step:0,
-student:{name:'',responses:{}},
+student:{name:'',responses:{},otherNotes:{}},
 students:[],
 selStu:0,
 tab:'teacher',
+teacherSubTab:'overview',
 };
 
 // ===== SUPABASE CONFIG =====
@@ -695,7 +725,7 @@ el.innerHTML=`
 <div class="home-stat"><div class="num">${n}</div><div class="lbl">参与调研</div></div>
 <div class="home-stat"><div class="num">${avg}</div><div class="lbl">平均掌握率</div></div>
 <div class="home-stat"><div class="num">6</div><div class="lbl">科目覆盖</div></div>
-<div class="home-stat"><div class="num">61</div><div class="lbl">知识模块</div></div>`;
+<div class="home-stat"><div class="num">60</div><div class="lbl">知识模块</div></div>`;
 }
 function goHome(){
 S.view='home';
@@ -713,7 +743,7 @@ window.scrollTo(0,0);
 
 // ===== SURVEY =====
 function startSurvey(){
-S.student={name:'',responses:{}};
+S.student={name:'',responses:{},otherNotes:{}};
 S.step=0;
 S.view='survey';
 showView('survey');
@@ -746,7 +776,7 @@ c.innerHTML=`
 <div class="step-header">
 <h2>📝 学生信息</h2>
 <div class="sub">请输入学生姓名</div>
-<div class="desc">后续将依次评估六科共61个知识模块的掌握情况</div>
+<div class="desc">后续将依次评估六科共60个知识模块的掌握情况</div>
 </div>
 <div class="name-input-wrap">
 <input type="text" class="name-input" id="stu-name" placeholder="请输入学生姓名" value="${esc(S.student.name)}" oninput="S.student.name=this.value">
@@ -777,7 +807,13 @@ c.innerHTML=`
 <h2>${sub.icon} ${sub.name}${sub.sub?' <span style="font-size:14px;color:var(--ts)">（${sub.sub}）</span>':''}</h2>
 <div class="sub">请评估以下${sub.items.length}个知识模块的掌握情况</div>
 </div>
-<div class="kp-list" id="kp-list">${items}</div>`;
+<div class="kp-list" id="kp-list">${items}</div>
+<div class="other-wrap">
+<h4>✍️ 其他希望答疑的知识点</h4>
+<div class="other-hint">如果上述知识点之外还有希望老师讲解的内容，请在下方填写（选填，最多200字）</div>
+<textarea class="other-textarea" id="other-notes-${sub.id}" maxlength="200" placeholder="例如：希望老师讲解作文如何选材立意、文言文翻译技巧..." oninput="updateOtherNotes('${sub.id}',this.value)">${esc(S.student.otherNotes&&S.student.otherNotes[sub.id]||'')}</textarea>
+<div class="other-counter"><span id="other-count-${sub.id}">${(S.student.otherNotes&&S.student.otherNotes[sub.id]||'').length}</span>/200</div>
+</div>`;
 setTimeout(()=>{const f=document.querySelector('#kp-list .kp-item');if(f)f.scrollIntoView({behavior:'smooth',block:'start'});},80);
 }
 else if(S.step===TOTAL_STEPS-1){
@@ -807,6 +843,7 @@ ${counts.none?`<div class="sum-bar" style="width:${counts.none/total*100}%;backg
 <div class="sum-pct">${answered>0?pct+'%':'未填'}</div>
 </div>
 <div style="font-size:11px;color:var(--tm);margin-left:58px">完全${counts.mastered} · 基本${counts.basic} · 部分${counts.partial} · 不会${counts.unknown}${counts.none?' · 未填'+counts.none:''}</div>
+${S.student.otherNotes&&S.student.otherNotes[sub.id]&&S.student.otherNotes[sub.id].trim()?'<div style="font-size:12px;color:#E65100;margin-top:4px;padding:4px 8px;background:#FFF8E1;border-radius:6px">✍️ 其他：'+esc(S.student.otherNotes[sub.id].trim())+'</div>':''}
 </div>`;
 });
 c.innerHTML=`
@@ -833,6 +870,13 @@ item.querySelectorAll('.mbtn').forEach(b=>{b.classList.toggle('sel',b.dataset.v=
 // Auto-scroll to next unanswered
 const next=item.nextElementSibling;
 if(next){next.scrollIntoView({behavior:'smooth',block:'center'});}
+}
+
+function updateOtherNotes(sid,val){
+if(!S.student.otherNotes)S.student.otherNotes={};
+S.student.otherNotes[sid]=val;
+const counter=document.getElementById('other-count-'+sid);
+if(counter)counter.textContent=val.length;
 }
 
 function nextStep(){
@@ -893,6 +937,7 @@ const data={
 name:S.student.name.trim(),
 timestamp:new Date().toISOString(),
 responses:S.student.responses,
+otherNotes:S.student.otherNotes||{},
 };
 // Keep existing cloud id
 if(existing>=0&&S.students[existing].id)data.id=S.students[existing].id;
@@ -996,45 +1041,17 @@ if(!weakestSub||ss.avgPct<weakestSub.avgPct)weakestSub={...sub,...ss};
 if(!strongestSub||ss.avgPct>strongestSub.avgPct)strongestSub={...sub,...ss};
 });
 
-// Per-subject weakest knowledge points
-let perSubjectWeakHTML='';
-SUBJECTS.forEach(sub=>{
-const ss=cs.subjStats[sub.id];
-let subKP=[];
-Object.entries(ss.kpStats).forEach(([id,kp])=>{
-subKP.push({subId:sub.id,subName:sub.name,subIcon:sub.icon,id,...kp});
-});
-const weakSub=subKP.filter(k=>k.count>0).sort((a,b)=>a.avgPct-b.avgPct);
-if(weakSub.length===0)return;
-perSubjectWeakHTML+=`
-<div class="chart-card">
-<h3>⚠️ ${sub.icon} 班级${sub.name}知识点掌握情况（按掌握率从低到高）</h3>
-<div class="tbl-wrap">
-<table class="tbl">
-<thead><tr><th>排名</th><th>编号</th><th>知识点</th><th>所属模块</th><th>完全</th><th>基本</th><th>部分</th><th>不会</th><th>掌握率</th></tr></thead>
-<tbody>
-${weakSub.map((w,i)=>`<tr>
-<td>${i+1}</td>
-<td>${w.id}</td>
-<td style="text-align:left">${esc(w.title)}</td>
-<td style="text-align:left;font-size:12px;color:var(--tm)">${esc(w.module||'')}</td>
-<td>${w.dist.mastered}</td>
-<td>${w.dist.basic}</td>
-<td>${w.dist.partial}</td>
-<td style="color:var(--m4);font-weight:600">${w.dist.unknown}</td>
-<td style="font-weight:700;color:${w.avgPct<40?'var(--m4)':w.avgPct<60?'var(--m3)':'var(--m2)'}">${w.avgPct}%</td>
-</tr>`).join('')}
-</tbody>
-</table>
-</div>
-</div>`;
-});
-
 // Student rankings
 const stuRanks=S.students.map(stu=>{
 const st=calcStudentStats(stu);
 return{name:stu.name,...st,answeredCount:st.overallCount};
 }).sort((a,b)=>b.overallPct-a.overallPct);
+
+// Need-attention students
+const bottomThirdCount=Math.max(1,Math.ceil(n/3));
+const bottomThirdStart=stuRanks.length-bottomThirdCount;
+const needAttentionList=stuRanks.slice(-bottomThirdCount);
+const needAttention=needAttentionList.map(s=>`${s.name}（${s.overallPct}%）`).join('、')||'无';
 
 // Subject distribution
 let subjDistHTML='';
@@ -1057,8 +1074,15 @@ subjDistHTML+=`
 </div>`;
 });
 
+// Subject tabs
+let subjTabsHTML='<div class="subj-tabs">';
+subjTabsHTML+=`<div class="subj-tab ${S.teacherSubTab==='overview'?'active':''}" onclick="switchTeacherSubTab('overview')">📊 总览</div>`;
+SUBJECTS.forEach(sub=>{
+subjTabsHTML+=`<div class="subj-tab ${S.teacherSubTab===sub.id?'active':''}" onclick="switchTeacherSubTab('${sub.id}')">${sub.icon} ${sub.name}</div>`;
+});
+subjTabsHTML+='</div>';
+
 // Student table
-const bottomThirdStart=stuRanks.length-bottomThirdCount;
 let stuTableHTML=stuRanks.map((s,i)=>{
 const rank=i+1;
 const rcls=rank<=3?`rank-${rank}`:'rank-o';
@@ -1068,30 +1092,29 @@ return `<tr${isAtRisk?' style="background:#FFEBEE"':''}>
 <td style="text-align:left;font-weight:600">${esc(s.name)}${isAtRisk?' <span style="color:var(--m4);font-size:11px">⚠️</span>':''}</td>
 <td style="${isAtRisk?'color:var(--m4);font-weight:700':''}">${s.overallPct}%</td>
 <td><div class="pct-bar"><div class="pct-fill" style="width:${s.overallPct}%"></div></div></td>
-<td>${s.answeredCount}/61</td>
+<td>${s.answeredCount}/60</td>
 <td><button class="btn btn-outline btn-sm" onclick="viewStudentDetail(${i})">详情</button></td>
 </tr>`;
 }).join('');
 
-// Need-attention students: bottom 1/3 by mastery rate
-const bottomThirdCount=Math.max(1,Math.ceil(n/3));
-const needAttentionList=stuRanks.slice(-bottomThirdCount);
-const needAttention=needAttentionList.map(s=>`${s.name}（${s.overallPct}%）`).join('、')||'无';
+// Student list
+let stuListHTML=S.students.map((s,i)=>{
+const st=calcStudentStats(s);
+return `<div class="stu-item">
+<span class="nm">${esc(s.name)}</span>
+<span style="font-size:11px;color:var(--tm)">${st.overallCount}/60已评</span>
+<span class="pct">${st.overallPct}%</span>
+<button class="btn btn-outline btn-sm" onclick="viewStudentDetail(${i})">详情</button>
+<button class="btn btn-outline btn-sm" onclick="downloadStudentReport(${i})" title="生成独立学情报告">📄 报告</button>
+<button class="stu-del" onclick="deleteStudent(${i})" title="删除该学生数据">删除</button>
+</div>`;
+}).join('');
 
-el.innerHTML=`
-<div class="stat-grid">
-<div class="stat-card"><div class="val">${n}</div><div class="lbl">参与人数</div></div>
-<div class="stat-card"><div class="val">${Math.round(stuRanks.reduce((a,s)=>a+s.overallPct,0)/n)}%</div><div class="lbl">班级平均掌握</div></div>
-<div class="stat-card"><div class="val orange">${weakestSub?weakestSub.name:'—'}</div><div class="lbl">最薄弱科目</div></div>
-<div class="stat-card"><div class="val green">${strongestSub?strongestSub.name:'—'}</div><div class="lbl">最强科目</div></div>
-</div>
+// Build content based on selected tab
+let contentHTML='';
 
-<div class="db-banner">
-<h4>🤖 一键提交豆包AI深度分析</h4>
-<p>将班级全部调研数据提交给豆包，获取教学建议、薄弱点分析和学生关注建议</p>
-<button class="db-btn" onclick="submitToDoubao('teacher')">📋 提交豆包分析（老师视角）</button>
-</div>
-
+if(S.teacherSubTab==='overview'){
+contentHTML=`
 <div class="chart-card">
 <h3>📊 各科掌握情况分布</h3>
 ${subjDistHTML}
@@ -1102,15 +1125,6 @@ ${subjDistHTML}
 <span><i style="background:var(--m4)"></i>不会</span>
 </div>
 </div>
-
-<div class="chart-card" style="background:linear-gradient(135deg,#e3f2fd,#f5f9ff);border:1px solid #90caf9;margin-bottom:12px">
-<div style="font-size:13px;color:#1565c0;line-height:1.8;padding:4px 0">
-<b>📋 说明：</b>以下各科知识点按<b>掌握率从低到高</b>排序。掌握率越低，说明该知识点越薄弱，<b>越需要老师重点讲解</b>。
-建议老师优先关注标红的知识点（掌握率低于40%），安排专项复习和讲解。
-</div>
-</div>
-
-${perSubjectWeakHTML}
 
 <div class="chart-card">
 <h3>👥 学生掌握情况排名</h3>
@@ -1128,24 +1142,106 @@ ${perSubjectWeakHTML}
 <p style="background:var(--m4b);padding:8px 12px;border-radius:8px;margin-bottom:8px"><b style="color:var(--m4)">📌 重点关注规则：</b>按总掌握率排名，后 1/3 的学生（共 ${bottomThirdCount} 人）需重点关注</p>
 <p><b style="color:var(--m4)">⚠️ 需重点关注的学生（后1/3）：</b>${needAttention}</p>
 <p><b style="color:var(--m3)">📝 最薄弱科目：</b>${weakestSub?weakestSub.name+'（'+weakestSub.avgPct+'%）':''}</p>
-<p><b style="color:var(--m2)">💡 教学建议：</b>建议针对上述薄弱知识点进行专项复习，优先解决掌握率低于40%的模块。对于需重点关注的学生，建议课后加强辅导和个性化跟踪。</p>
+</div>
+</div>
+
+<div class="db-banner">
+<h4>🤖 AI深度分析（全班总览）</h4>
+<p>将班级全部调研数据提交给AI，获取教学建议、薄弱点分析和学生关注建议</p>
+<button class="db-btn" onclick="submitToAI('teacher')">🤖 提交AI分析</button>
+</div>
+<div class="ai-panel" id="ai-result-teacher" style="display:none"></div>
+
+<div class="chart-card">
+<h3>📋 已参与调研学生列表</h3>
+${stuListHTML}
+</div>`;
+}else{
+// Subject-specific view
+const sub=SUBJECTS.find(s=>s.id===S.teacherSubTab);
+if(sub){
+const ss=cs.subjStats[sub.id];
+let subKP=[];
+Object.entries(ss.kpStats).forEach(([id,kp])=>{
+subKP.push({subId:sub.id,subName:sub.name,subIcon:sub.icon,id,...kp});
+});
+const weakSub=subKP.filter(k=>k.count>0).sort((a,b)=>a.avgPct-b.avgPct);
+
+const kpTableHTML=weakSub.map((w,i)=>`<tr>
+<td>${i+1}</td>
+<td>${w.id}</td>
+<td style="text-align:left">${esc(w.title)}</td>
+<td style="text-align:left;font-size:12px;color:var(--tm)">${esc(w.module||'')}</td>
+<td>${w.dist.mastered}</td>
+<td>${w.dist.basic}</td>
+<td>${w.dist.partial}</td>
+<td style="color:var(--m4);font-weight:600">${w.dist.unknown}</td>
+<td style="font-weight:700;color:${w.avgPct<40?'var(--m4)':w.avgPct<60?'var(--m3)':'var(--m2)'}">${w.avgPct}%</td>
+</tr>`).join('');
+
+// Aggregate "其他" notes for this subject
+const otherNotes=[];
+S.students.forEach(stu=>{
+if(stu.otherNotes&&stu.otherNotes[sub.id]&&stu.otherNotes[sub.id].trim()){
+otherNotes.push({name:stu.name,content:stu.otherNotes[sub.id].trim()});
+}
+});
+
+let otherHTML='';
+if(otherNotes.length>0){
+otherHTML=otherNotes.map(n=>`<div class="other-aggregate-item"><div class="name">${esc(n.name)}</div><div class="content">${esc(n.content)}</div></div>`).join('');
+}else{
+otherHTML='<p style="font-size:13px;color:var(--tm);text-align:center;padding:12px">暂无学生填写</p>';
+}
+
+contentHTML=`
+<div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
+<div class="stat-card"><div class="val">${ss.avgPct}%</div><div class="lbl">${sub.name}平均掌握率</div></div>
+<div class="stat-card"><div class="val orange">${weakSub.filter(k=>k.avgPct<40).length}</div><div class="lbl">掌握率<40%的知识点</div></div>
+<div class="stat-card"><div class="val green">${otherNotes.length}</div><div class="lbl">学生答疑需求</div></div>
+</div>
+
+<div class="chart-card">
+<h3>⚠️ ${sub.icon} ${sub.name}知识点掌握情况（按掌握率从低到高）</h3>
+<div class="tbl-wrap">
+<table class="tbl">
+<thead><tr><th>排名</th><th>编号</th><th>知识点</th><th>所属模块</th><th>完全</th><th>基本</th><th>部分</th><th>不会</th><th>掌握率</th></tr></thead>
+<tbody>${kpTableHTML}</tbody>
+</table>
 </div>
 </div>
 
 <div class="chart-card">
-<h3>📋 已参与调研学生列表</h3>
-${S.students.map((s,i)=>{
-const st=calcStudentStats(s);
-return `<div class="stu-item">
-<span class="nm">${esc(s.name)}</span>
-<span style="font-size:11px;color:var(--tm)">${st.overallCount}/61已评</span>
-<span class="pct">${st.overallPct}%</span>
-<button class="btn btn-outline btn-sm" onclick="viewStudentDetail(${i})">详情</button>
-<button class="btn btn-outline btn-sm" onclick="downloadStudentReport(${i})" title="生成独立学情报告">📄 报告</button>
-<button class="stu-del" onclick="deleteStudent(${i})" title="删除该学生数据">删除</button>
-</div>`;
-}).join('')}
-</div>`;
+<h3>📝 学生希望答疑的知识点（共${otherNotes.length}条）</h3>
+<p style="font-size:12px;color:var(--tm);margin-bottom:8px">以下是学生在此科目填写的"其他"内容，汇总了他们的答疑需求</p>
+<div class="other-aggregate">${otherHTML}</div>
+</div>
+
+<div class="db-banner">
+<h4>🤖 AI分析${sub.name}掌握情况与答疑建议</h4>
+<p>将${sub.name}科目的掌握数据和学生答疑需求提交给AI，获取教学建议</p>
+<button class="db-btn" onclick="analyzeSubjectOther('${sub.id}')">🤖 提交AI分析</button>
+</div>
+<div class="ai-panel" id="ai-subject-${sub.id}" style="display:none"></div>`;
+}
+}
+
+el.innerHTML=`
+<div class="stat-grid">
+<div class="stat-card"><div class="val">${n}</div><div class="lbl">参与人数</div></div>
+<div class="stat-card"><div class="val">${Math.round(stuRanks.reduce((a,s)=>a+s.overallPct,0)/n)}%</div><div class="lbl">班级平均掌握</div></div>
+<div class="stat-card"><div class="val orange">${weakestSub?weakestSub.name:'—'}</div><div class="lbl">最薄弱科目</div></div>
+<div class="stat-card"><div class="val green">${strongestSub?strongestSub.name:'—'}</div><div class="lbl">最强科目</div></div>
+</div>
+
+${subjTabsHTML}
+
+${contentHTML}`;
+}
+
+function switchTeacherSubTab(tab){
+S.teacherSubTab=tab;
+renderTeacherView();
 }
 
 // ===== PARENT VIEW =====
@@ -1274,10 +1370,11 @@ ${S.students.map((s,i)=>`<option value="${i}" ${i===S.selStu?'selected':''}>${es
 </div>
 
 <div class="db-banner">
-<h4>🤖 一键提交豆包AI深度分析</h4>
-<p>将该学生的调研数据提交给豆包，获取个性化辅导建议和学习规划</p>
-<button class="db-btn" onclick="submitToDoubao('parent')">📋 提交豆包分析（家长视角）</button>
+<h4>🤖 AI深度分析（家长视角）</h4>
+<p>将该学生的调研数据提交给AI，获取个性化辅导建议和学习规划</p>
+<button class="db-btn" onclick="submitToAI('parent')">🤖 提交AI分析</button>
 </div>
+<div class="ai-panel" id="ai-result-parent" style="display:none"></div>
 
 <div class="chart-card">
 <h3>📊 各科掌握情况 vs 班级平均</h3>
@@ -1411,10 +1508,11 @@ ${S.students.map((s,i)=>`<option value="${i}" ${i===S.selStu?'selected':''}>${es
 </div>
 
 <div class="db-banner">
-<h4>🤖 一键提交豆包AI深度分析</h4>
-<p>将你的调研数据提交给豆包，获取个性化学习计划和建议</p>
-<button class="db-btn" onclick="submitToDoubao('student')">📋 提交豆包分析（学生视角）</button>
+<h4>🤖 AI深度分析（学生视角）</h4>
+<p>将你的调研数据提交给AI，获取个性化学习计划和建议</p>
+<button class="db-btn" onclick="submitToAI('student')">🤖 提交AI分析</button>
 </div>
+<div class="ai-panel" id="ai-result-student" style="display:none"></div>
 
 <div class="chart-card">
 <h3>🎯 六科掌握雷达图</h3>
@@ -1481,7 +1579,7 @@ console.log('[DELETE] called with idx:',idx);
 const stu=S.students[idx];
 if(!stu){console.log('[DELETE] No student at index',idx);return;}
 const st=calcStudentStats(stu);
-const msg=`确定要删除「${stu.name}」的调研数据吗？\n\n该学生已评估 ${st.overallCount}/61 个知识点，总掌握率 ${st.overallPct}%。\n删除后不可恢复，云端数据将同步删除。`;
+const msg=`确定要删除「${stu.name}」的调研数据吗？\n\n该学生已评估 ${st.overallCount}/60 个知识点，总掌握率 ${st.overallPct}%。\n删除后不可恢复，云端数据将同步删除。`;
 if(!confirm(msg)){console.log('[DELETE] User cancelled');return;}
 console.log('[DELETE] Proceeding, stuId:',stu.id);
 
@@ -1503,8 +1601,43 @@ toast('本地已删除，云端数据将在下次同步时清理','warning');
 }
 }
 
-// ===== DOUBAO =====
-async function submitToDoubao(perspective){
+// ===== AGNES AI =====
+const AGNES_API_URL='https://apihub.agnes-ai.com/v1/chat/completions';
+const AGNES_API_KEY='sk-qQzr0T69qu4JbHJjG3lGmBeNowrMhS44cTlQQPWsCcv8dCoH';
+const AGNES_MODEL='agnes-2.0-flash';
+
+async function callAgnesAI(prompt,containerId){
+const container=document.getElementById(containerId);
+if(!container)return;
+container.innerHTML='<div class="ai-loading"><div class="spinner"></div>AI正在深度分析中，请稍候...</div>';
+container.style.display='block';
+container.scrollIntoView({behavior:'smooth',block:'center'});
+try{
+const resp=await fetch(AGNES_API_URL,{
+method:'POST',
+headers:{'Authorization':'Bearer '+AGNES_API_KEY,'Content-Type':'application/json'},
+body:JSON.stringify({
+model:AGNES_MODEL,
+messages:[
+{role:'system',content:'你是一位资深的高三教育分析专家，擅长根据学生知识点掌握数据给出专业的教学建议和学习规划。请用中文回答，格式清晰，使用标题和分点说明。'},
+{role:'user',content:prompt}
+],
+max_tokens:4096,
+temperature:0.7
+})
+});
+if(!resp.ok){throw new Error('API返回错误: '+resp.status);}
+const data=await resp.json();
+const result=data.choices[0].message.content;
+container.innerHTML='<div class="ai-result">'+esc(result).replace(/\n/g,'<br>')+'</div>';
+toast('AI分析完成','success');
+}catch(e){
+container.innerHTML='<div class="ai-error">分析失败：'+esc(e.message)+'<br><button class="btn btn-outline btn-sm" style="margin-top:8px" onclick="document.getElementById(\''+containerId+'\').innerHTML=\'\';submitToAI(\''+containerId.replace('ai-result-','')+'\')">重试</button></div>';
+toast('AI分析失败','error');
+}
+}
+
+function submitToAI(perspective){
 let prompt='';
 if(perspective==='teacher'){
 prompt=genTeacherPrompt();
@@ -1513,23 +1646,35 @@ prompt=genParentPrompt();
 }else{
 prompt=genStudentPrompt();
 }
-
-// Copy to clipboard
-try{
-await navigator.clipboard.writeText(prompt);
-}catch(e){
-const ta=document.createElement('textarea');
-ta.value=prompt;
-document.body.appendChild(ta);
-ta.select();
-document.execCommand('copy');
-document.body.removeChild(ta);
+callAgnesAI(prompt,'ai-result-'+perspective);
 }
 
-// Try opening Doubao with query param
-const url='https://www.doubao.com/chat/?q='+encodeURIComponent(prompt.slice(0,1800));
-window.open(url,'_blank');
-toast('✅ 分析数据已复制到剪贴板，正在打开豆包...如未自动填入，请粘贴','success');
+async function analyzeSubjectOther(subId){
+const sub=SUBJECTS.find(s=>s.id===subId);
+if(!sub)return;
+const containerId='ai-subject-'+subId;
+const container=document.getElementById(containerId);
+if(!container)return;
+// Aggregate "其他" notes and mastery stats for this subject
+const cs=calcClassStats();
+const ss=cs.subjStats[subId];
+const notes=[];
+S.students.forEach(stu=>{
+if(stu.otherNotes&&stu.otherNotes[subId]&&stu.otherNotes[subId].trim()){
+notes.push(stu.name+': '+stu.otherNotes[subId].trim());
+}
+});
+let kpStats=[];
+Object.entries(ss.kpStats).forEach(([id,kp])=>{if(kp.count>0)kpStats.push({id,...kp});});
+kpStats.sort((a,b)=>a.avgPct-b.avgPct);
+let prompt='作为'+sub.name+'老师，以下是全班'+cs.n+'名学生'+sub.name+'科目的掌握情况和学生们希望答疑的知识点。请分析并给出教学建议：\n\n【'+sub.name+'科目掌握情况】\n- 平均掌握率：'+ss.avgPct+'%\n- 知识点数量：'+sub.items.length+'个\n\n【各知识点掌握率（从低到高）】\n';
+kpStats.forEach((k,i)=>{
+prompt+=(i+1)+'. '+k.id+'. '+k.title+'（'+(k.module||'')+'）掌握率'+k.avgPct+'%，完全'+k.dist.mastered+'人/基本'+k.dist.basic+'人/部分'+k.dist.partial+'人/不会'+k.dist.unknown+'人\n';
+});
+prompt+='\n【学生希望答疑的知识点（共'+notes.length+'条）】\n';
+if(notes.length>0){notes.forEach(n=>{prompt+=n+'\n';});}else{prompt+='暂无学生填写\n';}
+prompt+='\n请分析以下内容：\n1. '+sub.name+'科目整体掌握情况评估\n2. 最薄弱的3-5个知识点及教学突破策略\n3. 针对学生提出的答疑需求，给出具体的答疑建议和讲解要点\n4. 下一步教学计划建议（按优先级排列）';
+callAgnesAI(prompt,containerId);
 }
 
 function genTeacherPrompt(){
@@ -1591,14 +1736,24 @@ const nAttention=Math.max(1,Math.ceil(n/3));
 const attentionNames=stuRanksForPrompt.slice(-nAttention).map(s=>s.name).join('、');
 txt+=`\n【需重点关注的学生（按总掌握率排名后1/3，共${nAttention}人）】\n${attentionNames}\n`;
 
+// Student "其他" notes per subject
+txt+='\n【学生希望答疑的知识点（"其他"栏目汇总）】\n';
+SUBJECTS.forEach(sub=>{
+const notes=S.students.filter(stu=>stu.otherNotes&&stu.otherNotes[sub.id]&&stu.otherNotes[sub.id].trim()).map(stu=>stu.name+': '+stu.otherNotes[sub.id].trim());
+if(notes.length>0){
+txt+=`■ ${sub.name}（${notes.length}条）：\n${notes.join('\n')}\n`;
+}
+});
+
 txt+=`
 
 请分析以下内容：
 1. 全班各科整体掌握情况评估
 2. 最薄弱的3-5个知识点及教学突破策略
 3. 需要重点关注的学生（后1/3）及个性化辅导方向
-4. 针对性的教学计划建议（按优先级排列）
-5. 班级整体提升方案`;
+4. 针对学生提出的答疑需求，给出具体的答疑建议
+5. 针对性的教学计划建议（按优先级排列）
+6. 班级整体提升方案`;
 
 return txt;
 }
@@ -1613,7 +1768,7 @@ let txt=`作为家长，以下是孩子「${sel.name}」的高三各科知识点
 【学生概况】
 - 姓名：${sel.name}
 - 总掌握率：${st.overallPct}%
-- 已评估知识点：${st.overallCount}/61
+- 已评估知识点：${st.overallCount}/60
 
 【各科掌握情况 vs 班级平均】
 `;
@@ -1641,14 +1796,24 @@ txt+='\n';
 });
 });
 
+// Student "其他" notes
+const otherNotes=sel.otherNotes||{};
+txt+='\n【孩子希望答疑的知识点】\n';
+SUBJECTS.forEach(sub=>{
+if(otherNotes[sub.id]&&otherNotes[sub.id].trim()){
+txt+=`${sub.name}：${otherNotes[sub.id].trim()}\n`;
+}
+});
+
 txt+=`
 
 请分析以下内容：
 1. 孩子的优势科目和薄弱科目
 2. 各科需要重点提升的知识点及原因分析
 3. 与班级平均水平的对比分析
-4. 针对孩子的个性化家庭辅导建议
-5. 暑假期间的学习安排建议`;
+4. 针对孩子提出的答疑需求，给出具体的学习建议
+5. 针对孩子的个性化家庭辅导建议
+6. 暑假期间的学习安排建议`;
 
 return txt;
 }
@@ -1688,14 +1853,24 @@ txt+='\n';
 });
 });
 
+// Student "其他" notes
+const otherNotes=sel.otherNotes||{};
+txt+='\n【我希望答疑的知识点】\n';
+SUBJECTS.forEach(sub=>{
+if(otherNotes[sub.id]&&otherNotes[sub.id].trim()){
+txt+=`${sub.name}：${otherNotes[sub.id].trim()}\n`;
+}
+});
+
 txt+=`
 
 请分析以下内容：
 1. 我的各科掌握情况总体评估
 2. 需要优先复习的5个知识点（按重要性排序）
 3. 每个薄弱知识点的学习建议和方法
-4. 制定一个4周学习计划（包括每天的大致安排）
-5. 给我一些鼓励和学习方法建议`;
+4. 针对我提出的答疑需求，给出具体的学习建议
+5. 制定一个4周学习计划（包括每天的大致安排）
+6. 给我一些鼓励和学习方法建议`;
 
 return txt;
 }
@@ -1795,8 +1970,8 @@ if(!weakestSub||sp<weakestSub.pct)weakestSub={name:sub.name,icon:sub.icon,pct:sp
 if(!strongestSub||sp>strongestSub.pct)strongestSub={name:sub.name,icon:sub.icon,pct:sp};
 });
 const radarSVG=renderRadar(st.subjStats);
-// Doubao prompt
-let dp=`作为家长，以下是孩子「${stu.name}」的高三各科知识点掌握情况调研数据。请从家长角度进行深度分析：\n\n【学生概况】\n- 姓名：${stu.name}\n- 总掌握率：${st.overallPct}%\n- 已评估知识点：${st.overallCount}/61\n\n【各科掌握情况 vs 班级平均】\n`;
+// AI prompt
+let dp=`作为家长，以下是孩子「${stu.name}」的高三各科知识点掌握情况调研数据。请从家长角度进行深度分析：\n\n【学生概况】\n- 姓名：${stu.name}\n- 总掌握率：${st.overallPct}%\n- 已评估知识点：${st.overallCount}/60\n\n【各科掌握情况 vs 班级平均】\n`;
 SUBJECTS.forEach(sub=>{
 const ss=st.subjStats[sub.id];
 const classAvg=ca.avgs?ca.avgs[sub.id]:0;
@@ -1809,7 +1984,11 @@ dp+=`\n■ ${sub.name}（掌握率${ss.pct}%）：\n`;
 const cats={'不会':ss.items.filter(it=>it.value==='unknown'),'部分掌握':ss.items.filter(it=>it.value==='partial'),'基本掌握':ss.items.filter(it=>it.value==='basic'),'完全掌握':ss.items.filter(it=>it.value==='mastered')};
 Object.entries(cats).forEach(([cat,items])=>{dp+=`  ${cat}（${items.length}个）：`;dp+=items.length?items.map(it=>`${it.id}.${it.title}`).join('；'):'无';dp+='\n';});
 });
-dp+=`\n请分析以下内容：\n1. 孩子的优势科目和薄弱科目\n2. 各科需要重点提升的知识点及原因分析\n3. 与班级平均水平的对比分析\n4. 针对孩子的个性化家庭辅导建议\n5. 暑假期间的学习安排建议`;
+// Other notes
+const stuOther=stu.otherNotes||{};
+dp+='\n【孩子希望答疑的知识点】\n';
+SUBJECTS.forEach(sub=>{if(stuOther[sub.id]&&stuOther[sub.id].trim())dp+=`${sub.name}：${stuOther[sub.id].trim()}\n`;});
+dp+=`\n请分析以下内容：\n1. 孩子的优势科目和薄弱科目\n2. 各科需要重点提升的知识点及原因分析\n3. 与班级平均水平的对比分析\n4. 针对孩子提出的答疑需求，给出具体的学习建议\n5. 针对孩子的个性化家庭辅导建议\n6. 暑假期间的学习安排建议`;
 const dpJSON=JSON.stringify(dp);
 return`<!DOCTYPE html>
 <html lang="zh-CN">
@@ -1862,7 +2041,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast.success{background:#43A047}
 .site-topbar{position:fixed;top:0;left:0;right:0;height:30px;background:linear-gradient(135deg,#0D47A1,#1565C0);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;letter-spacing:1px;z-index:100;box-shadow:0 2px 4px rgba(0,0,0,.15)}
 .site-footer{position:fixed;bottom:0;left:0;right:0;height:28px;background:#1A237E;color:rgba(255,255,255,.65);display:flex;align-items:center;justify-content:center;font-size:11px;z-index:100;box-shadow:0 -2px 4px rgba(0,0,0,.1)}
-@media print{.btn,.db-banner,.site-topbar,.site-footer{display:none}.chart-card{break-inside:avoid}body{padding:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ai-panel{background:linear-gradient(135deg,#E3F2FD,#F5F9FF);border:2px solid #90CAF9;border-radius:12px;padding:16px;margin:12px 0;min-height:60px}
+.ai-panel .ai-result{font-size:14px;line-height:1.8;color:#1A237E;white-space:pre-wrap;word-break:break-word}
+@media print{.btn,.db-banner,.site-topbar,.site-footer,.ai-panel{display:none}.chart-card{break-inside:avoid}body{padding:0}}
 </style>
 </head>
 <body>
@@ -1887,15 +2069,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 <div class="chart-card"><h3>📚 分科目知识点掌握详情</h3></div>
 ${subjDetailHTML}
 <div class="chart-card"><h3>💡 辅导建议</h3><div style="font-size:13px;color:#5C6BC0;line-height:1.8"><p>1. <b>优先突破「不会」的知识点</b>：共${totalCounts.unknown}个，建议配合老师或课外辅导集中突破。</p><p>2. <b>巩固「部分掌握」的内容</b>：共${totalCounts.partial}个，通过专项练习巩固。</p><p>3. <b>保持「基本掌握」的势头</b>：共${totalCounts.basic}个，适度拔高训练可提升至完全掌握。</p><p>4. <b>持续跟踪进度</b>：当前总掌握率${st.overallPct}%，建议定期重新评估。</p></div></div>
-<div class="db-banner"><h4>🤖 一键提交豆包AI深度分析</h4><p>将调研数据提交给豆包，获取个性化辅导建议和学习规划</p><button class="db-btn" onclick="submitDoubao()">📋 提交豆包分析</button></div>
+<div class="db-banner"><h4>🤖 AI深度分析</h4><p>将调研数据提交给AI，获取个性化辅导建议和学习规划</p><button class="db-btn" onclick="callReportAI()">🤖 提交AI分析</button></div>
+<div class="ai-panel" id="ai-panel" style="display:none"></div>
 </div>
 <div id="toast" class="toast"></div>
 <script>
-var DOUBAO_PROMPT=${dpJSON};
-function submitDoubao(){
-var ta=document.createElement('textarea');ta.value=DOUBAO_PROMPT;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
-window.open('https://www.doubao.com/chat/?q='+encodeURIComponent(DOUBAO_PROMPT.slice(0,1800)),'_blank');
-var t=document.getElementById('toast');t.textContent='✅ 分析数据已复制到剪贴板，正在打开豆包...';t.className='toast show success';setTimeout(function(){t.classList.remove('show');},3000);
+var PROMPT=${dpJSON};
+var API_URL='https://apihub.agnes-ai.com/v1/chat/completions';
+var API_KEY='${AGNES_API_KEY}';
+var MODEL='agnes-2.0-flash';
+function callReportAI(){
+var panel=document.getElementById('ai-panel');
+panel.style.display='block';
+panel.innerHTML='<div style="display:flex;align-items:center;gap:10px;justify-content:center;padding:20px 0;color:#1565C0;font-size:14px"><div style="width:20px;height:20px;border:3px solid #90CAF9;border-top-color:#1565C0;border-radius:50%;animation:spin 0.8s linear infinite"></div>AI正在深度分析中，请稍候...</div>';
+panel.scrollIntoView({behavior:'smooth',block:'center'});
+fetch(API_URL,{method:'POST',headers:{'Authorization':'Bearer '+API_KEY,'Content-Type':'application/json'},body:JSON.stringify({model:MODEL,messages:[{role:'system',content:'你是一位资深的高三教育分析专家，擅长根据学生知识点掌握数据给出专业的教学建议和学习规划。请用中文回答，格式清晰，使用标题和分点说明。'},{role:'user',content:PROMPT}],max_tokens:4096,temperature:0.7})}).then(function(r){return r.json();}).then(function(data){var result=data.choices[0].message.content;panel.innerHTML='<div style="font-size:14px;line-height:1.8;color:#1A237E;white-space:pre-wrap;word-break:break-word">'+result.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\\n/g,'<br>')+'</div>';var t=document.getElementById('toast');t.textContent='AI分析完成';t.className='toast show success';setTimeout(function(){t.classList.remove('show');},3000);}).catch(function(e){panel.innerHTML='<div style="color:#C62828;font-size:13px;text-align:center;padding:20px 0">分析失败：'+e.message+'<br><button onclick="callReportAI()" style="margin-top:8px;padding:6px 16px;border:1px solid #1565C0;border-radius:20px;background:#fff;color:#1565C0;cursor:pointer">重试</button></div>';});
 }
 <\/script>
 <div class="site-footer">AI辅助 仅供参考 不得外传</div>
