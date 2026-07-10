@@ -515,6 +515,15 @@ if(S.step===0){
 btnNext.textContent='开始填写调研 →';
 c.innerHTML=`
 <div class="step-header">
+<h2>📝 学生信息</h2>
+<div class="sub">请输入学生姓名</div>
+</div>
+<div class="name-input-wrap">
+<input type="text" class="name-input" id="stu-name" placeholder="请输入学生姓名" value="${esc(S.student.name)}" oninput="S.student.name=this.value">
+<div class="name-hint">提示：姓名将用于保存和查看您的数据，仅您自己可见</div>
+</div>
+
+<div class="step-header" style="padding-top:12px">
 <h2>📋 调研说明</h2>
 <div class="sub">2024级七班知识点掌握情况调研</div>
 </div>
@@ -620,17 +629,8 @@ c.innerHTML=`
 <span style="font-size:18px">🔒</span>
 <span>隐私保护：本页仅显示<b>您自己</b>的调研数据，其他同学的数据不可见。班级平均数据仅用于对比参考。</span>
 </div>
-</div>
-
-<div class="step-header" style="padding-top:8px">
-<h2>📝 学生信息</h2>
-<div class="sub">请输入学生姓名</div>
-</div>
-<div class="name-input-wrap">
-<input type="text" class="name-input" id="stu-name" placeholder="请输入学生姓名" value="${esc(S.student.name)}" oninput="S.student.name=this.value">
-<div class="name-hint">提示：姓名将用于保存和查看您的数据，仅您自己可见</div>
 </div>`;
-setTimeout(()=>document.getElementById('stu-name').focus(),100);
+setTimeout(()=>{window.scrollTo({top:0,behavior:'smooth'});document.getElementById('stu-name').focus();},100);
 }
 else if(S.step<TOTAL_STEPS-1){
 const sub=SUBJECTS[S.step-1];
